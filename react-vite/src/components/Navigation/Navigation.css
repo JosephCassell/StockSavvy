@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   background-color: #23394d; 
-  padding: 10px 20px;
+  padding: 2px 20px;
   border-bottom: 2px solid white; 
 }
 
@@ -17,10 +17,10 @@
 }
 
 .logo img {
-  width: 100px;
+  width: 110px;
   object-fit: cover;
   margin-right: 50px;
-  height: 40px;
+  height: 30px;
 }
 
 
@@ -32,9 +32,9 @@
 
 .What {
   position: relative;
-  padding: 18px 30px;
+  padding: 13px 30px;
   margin-left: -65px; 
-  padding-top: 22px;
+  padding-top: 17px;
   border-radius: 0 50px 50px 0;
   padding-right: 18px;
   box-shadow: 5px 0 5px -5px #000;
@@ -43,10 +43,10 @@
 }
 .Gold {
   position: relative;
-  padding: 18px 30px;
+  padding: 13px 30px;
   margin-left: -25px; 
   padding-right: 18px;
-  padding-top: 22px;
+  padding-top: 17px;
   border-radius: 0 50px 50px 0;
   box-shadow: 5px 0 5px -5px #000;
   background:  #7dcfb6;
@@ -54,10 +54,10 @@
 }
 .Learn {
   position: relative;
-  padding: 18px 30px;
+  padding: 13px 30px;
   padding-right: 18px;
   margin-left: -25px; 
-  padding-top: 22px;
+  padding-top: 17px;
   background: #00b2ca;
   box-shadow: 5px 0 5px -5px #000;
   border-radius: 0 50px 50px 0; 
@@ -65,10 +65,10 @@
 }
 .Snacks {
   position: relative;
-  padding: 18px 30px;
+  padding: 13px 30px;
   margin-left: -25px; 
   padding-right: 18px;
-  padding-top: 22px;
+  padding-top: 17px;
   box-shadow: 5px 0 5px -5px #000;
   border-radius: 0 50px 50px 0; 
   background:  #F79256;
@@ -76,8 +76,8 @@
 }
 .Support {
   position: relative;
-  padding: 18px 30px;
-  padding-top: 22px;
+  padding: 13px 30px;
+  padding-top: 17px;
   padding-right: 18px;
   margin-left: -25px; 
   box-shadow: 5px 0 5px -5px #000;
@@ -88,9 +88,9 @@
 
 .nav-links a {
   text-decoration: none;
-  color: grey;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 10px; 
+  color:#222430;
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 8px; 
 }
 .nav-links a.active, .nav-links a:hover {
   background-color: yellow;
@@ -105,27 +105,29 @@
 
 .auth-buttons li {
   list-style: none;
-  padding: 10px;
   margin: 0;
-  background-color: #2b6cb0; 
+  background-color: #222430; 
   border-radius: 20px; 
-  cursor: pointer;
-  color: white; 
+  cursor: pointer; 
+  font-family: Arial, Helvetica, sans-serif; 
 }
 
-.auth-buttons li:hover {
-  background-color: #2c5282; 
+li.login{
+  border:2px solid #F79256;
+  color:  #F79256;
+}
+li.signup{
+  border: 2px solid #7DCFB6;
+  color: #7DCFB6;
+}
+.auth-buttons li.login, .auth-buttons li.signup {
+  padding: 1px 10px;
 }
 
 
 .auth-buttons li.login, .auth-buttons li.signup {
-  padding: 5px 15px;
-}
-
-
-.auth-buttons li.login, .auth-buttons li.signup {
-  width: 60px; 
-  height: 60px;
+  width: 80px; 
+  height: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
