@@ -1,12 +1,14 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import logo from '../../../../Photos/Logo2.png';
+import logo from '../../../../Photos/Logo2.png';
 import "./Navigation.css";
 
 function Navigation({ user }) {
+  const navigate = useNavigate();
   return (
     <nav className="navbar">
       <NavLink to="/" className="logo">
@@ -31,14 +33,16 @@ function Navigation({ user }) {
       </ul>
       {!user && (
         <div className="auth-buttons">
-          <OpenModalMenuItem
-            itemText="Log In"
-            modalComponent={<LoginFormModal />}
-          />
-          <OpenModalMenuItem
-            itemText="Sign Up"
-            modalComponent={<SignupFormModal />}
-          />
+          <li onClick={() => {
+            navigate('/login');
+          }}>
+            Log In
+          </li>
+          <li onClick={() => {
+            navigate('/signup');
+          }}>
+            Sign Up
+          </li>
         </div>
       )}
       {user && <ProfileButton />}
