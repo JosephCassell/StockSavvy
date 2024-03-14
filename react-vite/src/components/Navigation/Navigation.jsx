@@ -1,6 +1,10 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
-import logo from '../../../../Photos/Logo2.png';
+import OpenModalMenuItem from "./OpenModalMenuItem";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
+
+import logo from '../../../../Photos/Logo.png';
 import "./Navigation.css";
 
 function Navigation({ user }) {
@@ -29,15 +33,15 @@ function Navigation({ user }) {
       </ul>
       {!user && (
         <div className="auth-buttons">
-          <li onClick={() => {
+          <li className = "login" onClick={() => {
             navigate('/login');
           }}>
-            Log In
+            LOG IN
           </li>
-          <li onClick={() => {
+          <li className = "signup" onClick={() => {
             navigate('/signup');
           }}>
-            Sign Up
+            SIGN UP
           </li>
         </div>
       )}

@@ -1,6 +1,8 @@
+import landingPageImage from '../../../../Photos/landing_page_large_banner_2.png';
+import cardImage1 from '../../../../Photos/landing_page_small_banner_1.png';
+import cardImage2 from '../../../../Photos/landing_page_small_banner_2.png';
+import cardImage3 from '../../../../Photos/landing_page_small_banner_3.png';
 import './LandingPage.css';
-import landingPageImage from '../../../../Photos/Landing_page.png';
-import cardImage from '../../../../Photos/Login_background.png';
 
 const LandingPage = () => {
     return (
@@ -8,13 +10,13 @@ const LandingPage = () => {
             <img className="main-image" src={landingPageImage} alt="Landing Page" />
             <div className="cards-container">
                 <div className="card">
-                    <img src={cardImage} alt="Sub Image" />
+                    <img src={cardImage1} alt="Sub Image" />
                 </div>
                 <div className="card">
-                    <img src={cardImage} alt="Sub Image" />
+                    <img src={cardImage2} alt="Sub Image" />
                 </div>
                 <div className="card">
-                    <img src={cardImage} alt="Sub Image" />
+                    <img src={cardImage3} alt="Sub Image" />
                 </div>
             </div>
         </div>
