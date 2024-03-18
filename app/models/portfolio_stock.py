@@ -9,7 +9,7 @@ class PortfolioStock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     portfolio_id = db.Column(db.Integer, db.ForeignKey('portfolios.id'), nullable=False)
     stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'), nullable=False)
-    shares = db.Column(db.Integer, nullable=False)
+    shares = db.Column(db.Float, nullable=False)
     average_cost = db.Column(db.Float, nullable=False)
     total_return = db.Column(db.Float, nullable=False)
     equity = db.Column(db.Float, nullable=False)
