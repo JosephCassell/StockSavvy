@@ -10,10 +10,11 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.portfolio_routes import portfolio_routes
 from .api.watchlist_routes import watchlist_routes
+from .api.stock_details import stock_details
 from .seeds import seed_commands
 from .config import Config
 
-app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
+app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/', template_folder='templates')
 
 # Setup login manager
 login = LoginManager(app)
@@ -33,6 +34,7 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(portfolio_routes, url_prefix='/api/portfolios')
 app.register_blueprint(watchlist_routes, url_prefix='/api/watchlists')
+app.register_blueprint(stock_details, url_prefix='/stockDetails')
 db.init_app(app)
 Migrate(app, db)
 
