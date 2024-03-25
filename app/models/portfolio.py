@@ -11,4 +11,11 @@ class Portfolio(db.Model):
     name = db.Column(db.String(30), nullable=False)
 
     user = db.relationship('User', back_populates='portfolios')
-    portfolio_table = db.relationship('PortfolioStock', back_populates='portfolios')
+    portfolio_table = db.relationship('PortfolioStock', back_populates='portfolios', cascade="all, delete-orphan")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'name': self.name
+        }

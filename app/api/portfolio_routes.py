@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
+from app.forms import PortfolioForm
 from app.models import User, Portfolio, PortfolioStock, Stock, db
 
 portfolio_routes = Blueprint('portfolios', __name__)
@@ -54,3 +55,28 @@ def user_portfolios(id):
         return jsonify(portfolios_data)
     else:
         return {'errors': {'message': 'User not found'}}, 404
+
+@portfolio_routes.route('/new', methods=['GET', 'POST'])
+@login_required
+def create_portfolio():
+    form = PortfolioForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        portfolio = Portfolio(
+            name=form.data['name'],
+            user_id=current_user.id
+        )
+        db.session.add(portfolio)
+        db.session.commit()
+        return portfolio.to_dict()
+    return form.errors, 401
+
+@portfolio_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_portfolio(id):
+    portfolio = Portfolio.query.filter_by(id=id, user_id=current_user.id).first()
+    if portfolio is None:
+        return {'errors': {'message': 'Portfolio not found'}}, 404
+    db.session.delete(portfolio)
+    db.session.commit()
+    return jsonify({'message': 'Portfolio successfully deleted.'}), 200

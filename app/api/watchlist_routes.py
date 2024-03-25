@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
+from app.forms import WatchlistForm
 from app.models import User, Watchlist, WatchlistStock, Stock, db
 
 watchlist_routes = Blueprint('watchlists', __name__)
@@ -49,3 +50,28 @@ def user_watchlists(id):
         return jsonify(watchlists_data)
     else:
         return {'errors': {'message': 'User not found'}}, 404
+
+@watchlist_routes.route('/new', methods=['GET', 'POST'])
+@login_required
+def create_watchlist():
+    form = WatchlistForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        watchlist = Watchlist(
+            name=form.data['name'],
+            user_id=current_user.id
+        )
+        db.session.add(watchlist)
+        db.session.commit()
+        return watchlist.to_dict()
+    return form.errors, 401
+
+@watchlist_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_watchlist(id):
+    watchlist = Watchlist.query.filter_by(id=id, user_id=current_user.id).first()
+    if watchlist is None:
+        return {'errors': {'message': 'Watchlist not found'}}, 404
+    db.session.delete(watchlist)
+    db.session.commit()
+    return jsonify({'message': 'Watchlist successfully deleted.'}), 200
