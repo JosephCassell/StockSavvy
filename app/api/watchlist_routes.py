@@ -6,7 +6,7 @@ from app.models import User, Watchlist, WatchlistStock, Stock, db
 watchlist_routes = Blueprint('watchlists', __name__)
 
 
-@watchlist_routes.route('/<int:id>')
+@watchlist_routes.route('user/<int:id>')
 @login_required
 def user_watchlists(id):
     """
@@ -64,7 +64,21 @@ def create_watchlist():
         db.session.add(watchlist)
         db.session.commit()
         return watchlist.to_dict()
-    return form.errors, 401
+    return form.errors, 400
+
+@watchlist_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def update_watchlist(id):
+    watchlist = Watchlist.query.filter_by(id=id, user_id=current_user.id).first()
+    if watchlist is None:
+        return {'errors': {'message': 'Watchlist not found'}}, 404
+    data = request.get_json()
+    new_name = data.get('name')
+    if new_name is None:
+        return {'errors': {'message': 'New name is required'}}, 400
+    watchlist.name = new_name
+    db.session.commit()
+    return jsonify(watchlist.to_dict()), 200
 
 @watchlist_routes.route('/<int:id>', methods=['DELETE'])
 @login_required

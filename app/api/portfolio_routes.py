@@ -6,7 +6,7 @@ from app.models import User, Portfolio, PortfolioStock, Stock, db
 portfolio_routes = Blueprint('portfolios', __name__)
 
 
-@portfolio_routes.route('/<int:id>')
+@portfolio_routes.route('user/<int:id>')
 @login_required
 def user_portfolios(id):
     """
@@ -36,11 +36,12 @@ def user_portfolios(id):
                     'id': portfolio_stock.id,
                     'portfolio_id': portfolio_stock.portfolio_id,
                     'stock_id': portfolio_stock.stock_id,
+                    'stock_symbol':portfolio_stock.stock_symbol,
                     'shares': portfolio_stock.shares,
                     'average_cost': portfolio_stock.average_cost,
                     'total_return': portfolio_stock.total_return,
                     'equity': portfolio_stock.equity,
-                    'current_price': portfolio_stock.current_price,
+                    # 'current_price': portfolio_stock.current_price,
                     'stock': stock_data
                 }
 
@@ -68,8 +69,22 @@ def create_portfolio():
         )
         db.session.add(portfolio)
         db.session.commit()
-        return portfolio.to_dict()
-    return form.errors, 401
+        return jsonify(portfolio.to_dict()), 200
+    return form.errors, 400
+
+@portfolio_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def update_portfolio(id):
+    portfolio = Portfolio.query.filter_by(id=id, user_id=current_user.id).first()
+    if portfolio is None:
+        return {'errors': {'message': 'Portfolio not found'}}, 404
+    data = request.get_json()
+    new_name = data.get('name')
+    if new_name is None:
+        return {'errors': {'message': 'New name is required'}}, 400
+    portfolio.name = new_name
+    db.session.commit()
+    return jsonify(portfolio.to_dict()), 200
 
 @portfolio_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
