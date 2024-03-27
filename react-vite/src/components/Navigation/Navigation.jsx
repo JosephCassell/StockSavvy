@@ -1,14 +1,18 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import ProfileButton from "./ProfileButton";
-import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
-
+import { useDispatch, useSelector } from 'react-redux'; 
+import { thunkLogout } from '../../redux/session'; 
 import logo from '../../../../Photos/Logo.png';
 import "./Navigation.css";
 
-function Navigation({ user }) {
+function Navigation() {
   const navigate = useNavigate();
+  const dispatch = useDispatch(); 
+  const user = useSelector((state) => state.session.user);
+
+  const logout = () => {
+    dispatch(thunkLogout()); 
+    navigate('/'); 
+  };
   return (
     <nav className="navbar">
       <NavLink to="/" className="logo">
@@ -31,23 +35,24 @@ function Navigation({ user }) {
           <NavLink to="/support" className="Support">SUPPORT</NavLink>
         </li>
       </ul>
-      {!user && (
+      {!user ? (
         <div className="auth-buttons">
-          <li className = "login" onClick={() => {
-            navigate('/login');
-          }}>
+          <li className="login" onClick={() => navigate('/login')}>
             LOG IN
           </li>
-          <li className = "signup" onClick={() => {
-            navigate('/signup');
-          }}>
+          <li className="signup" onClick={() => navigate('/signup')}>
             SIGN UP
           </li>
         </div>
+      ) : (
+        <div className="user-greeting">
+          <span>Welcome, {user.username}!</span>
+          <button className="logout" onClick={logout}>
+            LOG OUT
+          </button>
+        </div>
       )}
-      {user && <ProfileButton />}
     </nav>
   );
 }
-
 export default Navigation;
