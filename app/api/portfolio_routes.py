@@ -36,12 +36,11 @@ def user_portfolios(id):
                     'id': portfolio_stock.id,
                     'portfolio_id': portfolio_stock.portfolio_id,
                     'stock_id': portfolio_stock.stock_id,
-                    'stock_symbol':portfolio_stock.stock_symbol,
+                    'stock_symbol':stock.symbol,
                     'shares': portfolio_stock.shares,
-                    'average_cost': portfolio_stock.average_cost,
+                    'average_cost': (stock.current_price / portfolio_stock.shares),
                     'total_return': portfolio_stock.total_return,
                     'equity': portfolio_stock.equity,
-                    # 'current_price': portfolio_stock.current_price,
                     'stock': stock_data
                 }
 
