@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import Stock, db, User
+from app.models import Stock, db, User, Portfolio, PortfolioStock
 from flask_login import current_user, login_required
 import requests
 update_stocks = Blueprint('updateStocks', __name__)
@@ -58,10 +58,10 @@ def sell_stock():
     symbol = data['symbol']
     quantity = data['quantity']
     stock = Stock.query.filter_by(symbol=symbol, user_id=current_user.id).first()
-    user = User.query.get(current_user.id)  
+    user = User.query.get(current_user.id)
     if stock.quantity < quantity:
         return jsonify({'error': 'Error: Not enough shares to sell'}), 400
-    
+
     total_revenue = stock.current_price * quantity
     user.cash += total_revenue
     stock.quantity -= quantity
