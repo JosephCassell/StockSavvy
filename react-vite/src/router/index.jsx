@@ -23,11 +23,11 @@ export const router = createBrowserRouter([
         element: <SignupFormPage />,
       },
       {
-        path: "/stockDetails/:symbol",
+        path: "stockDetails/:symbol",
         element: <StockDetails />,
       },
       {
-        path: "/profile",
+        path: "profile",
         element: <Profile />,
       },
     ],
