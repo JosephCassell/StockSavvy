@@ -13,8 +13,6 @@ const StockDetails = () => {
     const error = useSelector((state) => state.stock.error);
     const [hoveredPrice, setHoveredPrice] = useState(null);
     const [selectedRange, setSelectedRange] = useState('all');
-    const [showPortfolios, setShowPortfolios] = useState(false);
-    const [showWatchlists, setShowWatchlists] = useState(false);
     const [initialRangePrice, setInitialRangePrice] = useState(0);
     const [priceDifference, setPriceDifference] = useState({ amount: 0, percentage: 0 });
 
@@ -141,6 +139,7 @@ const StockDetails = () => {
 
         return () => clearInterval(intervalId);
     }, [dispatch, symbol, selectedRange]);
+
     useEffect(() => {
         if (filteredData.length > 0) {
             const initialPriceForRange = filteredData[0].close;
@@ -207,14 +206,11 @@ const StockDetails = () => {
     const maxValue = Math.max(...closeValues);
     const buffer = (maxValue - minValue) * 0.05;
     const yAxisDomain = [minValue - buffer, maxValue + buffer];
-    const togglePortfolios = () => setShowPortfolios(!showPortfolios);
-    const toggleWatchlists = () => setShowWatchlists(!showWatchlists);
-    const addWatchlist = () => console.log("Add watchlist");
     return (
         <div className="stock-details-page">
             <div className="stock-chart-container">
                 <h2 className='header'>{symbol}</h2>
-                <div className='price'>${hoveredPrice ? hoveredPrice.toFixed(2) : stockDetails.price}
+                <div className='price'>${hoveredPrice ? hoveredPrice.toFixed(2) : Number(stockDetails.price).toFixed(2)}
                     <div className={`price-difference ${priceDifference.amount > 0 ? 'positive' : priceDifference.amount < 0 ? 'negative' : ''}`}>
                         {priceDifference.amount !== undefined && priceDifference.percentage !== undefined ? (
                             `${priceDifference.amount.toFixed(2)} (${priceDifference.percentage.toFixed(2)}%)`) : ('Calculating...')}
@@ -244,25 +240,6 @@ const StockDetails = () => {
                 <div className="market-movers-container">
                     <p className="market-movers-header">MARKET TOP / BOTTOM MOVERS</p>
                     {/* List of items representing movers */}
-                </div>
-            </div>
-            <div className="collapsible-containers">
-                <button className="collapsible-toggle" onClick={togglePortfolios}>
-                    Portfolios
-                </button>
-                <div className={`collapsible-content ${showPortfolios ? 'show' : ''}`}>
-                    {/* List of portfolios */}
-                </div>
-                <div className="watchlist-container">
-                    <button className="collapsible-toggle" onClick={toggleWatchlists}>
-                        Watchlists
-                    </button>
-                    <button className="add-watchlist-btn" onClick={addWatchlist}>
-                        +
-                    </button>
-                </div>
-                <div className={`collapsible-content ${showWatchlists ? 'show' : ''}`}>
-                    {/* List of watchlists */}
                 </div>
             </div>
         </div>

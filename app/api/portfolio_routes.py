@@ -17,41 +17,41 @@ def user_portfolios(id):
 
     user = User.query.get(id)
     if user:
-        portfolios_data = []
-        for portfolio in user.portfolios:
-            portfolio_stocks = portfolio.portfolio_table
-            portfolio_stocks_data = []
-            for portfolio_stock in portfolio_stocks:
-                stock = Stock.query.get(portfolio_stock.stock_id)
+        # portfolios_data = []
+        portfolio = user.portfolio
+        portfolio_stocks = portfolio.portfolio_table
+        portfolio_stocks_data = []
+        for portfolio_stock in portfolio_stocks:
+            stock = Stock.query.get(portfolio_stock.stock_id)
 
-                stock_data = {
-                    'id': stock.id,
-                    'name': stock.name,
-                    'symbol': stock.symbol,
-                    'current_price': stock.current_price,
-                    'company_info': stock.company_info
-                }
+            stock_data = {
+                'id': stock.id,
+                'name': stock.name,
+                'symbol': stock.symbol,
+                'current_price': stock.current_price,
+                'company_info': stock.company_info
+            }
 
-                portfolio_stock_data = {
-                    'id': portfolio_stock.id,
-                    'portfolio_id': portfolio_stock.portfolio_id,
-                    'stock_id': portfolio_stock.stock_id,
-                    'stock_symbol':stock.symbol,
-                    'shares': portfolio_stock.shares,
-                    'average_cost': (stock.current_price / portfolio_stock.shares),
-                    'total_return': portfolio_stock.total_return,
-                    'equity': portfolio_stock.equity,
-                    'stock': stock_data
-                }
+            portfolio_stock_data = {
+                'id': portfolio_stock.id,
+                'portfolio_id': portfolio_stock.portfolio_id,
+                'stock_id': portfolio_stock.stock_id,
+                'stock_symbol':stock.symbol,
+                'shares': portfolio_stock.shares,
+                'average_cost': (stock.current_price / portfolio_stock.shares),
+                'total_return': portfolio_stock.total_return,
+                'equity': portfolio_stock.equity,
+                'stock': stock_data
+            }
 
-                portfolio_stocks_data.append(portfolio_stock_data)
+            portfolio_stocks_data.append(portfolio_stock_data)
 
-            portfolios_data.append({
-                'id': portfolio.id,
-                'user_id': portfolio.user_id,
-                'name': portfolio.name,
-                'portfolio_stocks': portfolio_stocks_data
-            })
+        portfolios_data = {
+            'id': portfolio.id,
+            'user_id': portfolio.user_id,
+            'name': portfolio.name,
+            'portfolio_stocks': portfolio_stocks_data
+        }
         return jsonify(portfolios_data)
     else:
         return {'errors': {'message': 'User not found'}}, 404

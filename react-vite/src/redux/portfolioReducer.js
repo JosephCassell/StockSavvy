@@ -1,11 +1,11 @@
-import { LOAD_PORTFOLIOS } from "./portfolioActions";
+import { LOAD_PORTFOLIO } from "./portfolioActions";
 
-const initialState = { portfolios: null }
+const initialState = { portfolio: null }
 
 const portfolioReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOAD_PORTFOLIOS:
-            return { ...state, portfolios: action.payload };
+        case LOAD_PORTFOLIO:
+            return { ...state, portfolio: action.portfolio };
         default:
             return state;
     }
