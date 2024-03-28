@@ -3,19 +3,6 @@ from sqlalchemy.sql import text
 
 
 def seed_watchlists():
-    demo1 = Watchlist(user_id=1, name='Demo\'s First Watchlist')
-    demo2 = Watchlist(user_id=1, name='Demo\'s Second Watchlist')
-    marnie1 = Watchlist(user_id=2, name='Marnie\'s First Watchlist')
-    marnie2 = Watchlist(user_id=2, name='Marnie\'s Second Watchlist')
-    bobbie1 = Watchlist(user_id=3, name='Bobbie\'s First Watchlist')
-    bobbie2 = Watchlist(user_id=3, name='Bobbie\'s Second Watchlist')
-
-    db.session.add(demo1)
-    db.session.add(demo2)
-    db.session.add(marnie1)
-    db.session.add(marnie2)
-    db.session.add(bobbie1)
-    db.session.add(bobbie2)
     db.session.commit()
 
 

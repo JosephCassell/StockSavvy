@@ -8,10 +8,12 @@ import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import stockReducer from './stockReducer';
 import transferReducer from './transferReducer';
+import profileReducer from "./profileReducer";
 const rootReducer = combineReducers({
   session: sessionReducer,
   stock: stockReducer,
   account: transferReducer, 
+  profile: profileReducer
 });
 
 let enhancer;

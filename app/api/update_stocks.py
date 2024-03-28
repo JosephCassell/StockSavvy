@@ -24,31 +24,41 @@ def buy_stock():
     user = User.query.get(current_user.id)
     stock = Stock.query.filter_by(symbol=symbol, user_id=current_user.id).first()
 
-    if not stock:
-        api_url = f'https://financialmodelingprep.com/api/v3/quote/{symbol}?apikey={api_key}'
-        response = requests.get(api_url)
-        if response.status_code != 200:
-            return jsonify({'error': 'Failed to fetch stock data'}), 500
+    api_url = f'https://financialmodelingprep.com/api/v3/quote/{symbol}?apikey={api_key}'
+    response = requests.get(api_url)
+    if response.status_code != 200:
+        return jsonify({'error': 'Failed to fetch stock data'}), 500
 
-        stock_data = response.json()[0]
+    stock_data = response.json()[0]
+    current_price = stock_data['price']
+
+    if not stock:
         stock = Stock(
             user_id=current_user.id,
             name=stock_data['name'],
             symbol=symbol,
-            current_price=stock_data['price'],
+            current_price=current_price,
             company_info=stock_data.get('description', ''),
-            quantity=quantity
+            quantity=quantity,
+            total_investment=quantity * current_price
         )
         db.session.add(stock)
     else:
         stock.quantity += quantity
-    total_cost = stock.current_price * quantity
+        stock.total_investment += quantity * current_price
+        stock.current_price = stock.total_investment / stock.quantity
+
+    total_cost = current_price * quantity
     if user.cash < total_cost:
-        return jsonify({'error': 'Error: Insufficient funds'}), 400
+        return jsonify({'error': 'Insufficient funds'}), 400
+
     user.cash -= total_cost
     db.session.commit()
+
     updated_stocks = [stock.to_dict() for stock in user.stocks]
     return jsonify({'message': 'Stock purchased successfully', 'stocks': updated_stocks}), 200
+
+
 
 # Sell stock
 @update_stocks.route('/sell', methods=['POST'])
@@ -65,6 +75,8 @@ def sell_stock():
     total_revenue = stock.current_price * quantity
     user.cash += total_revenue
     stock.quantity -= quantity
+    if stock.quantity == 0:
+        db.session.delete(stock)
     db.session.commit()
 
     return jsonify({'message': 'Stock sold successfully'}), 200
