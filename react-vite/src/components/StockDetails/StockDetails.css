@@ -22,39 +22,6 @@
     color: white;
     font-family: Arial, Helvetica, sans-serif;
 }
-.collapsible-containers {
-    width: 300px; 
-    border: 1px solid #fbd1a2;
-    border-radius: 5px;
-    padding: 10px;
-    margin-left: 20px;
-    flex-shrink: 0; 
-}
-
-.collapsible-toggle {
-    width: 100%;
-    padding: 10px;
-    background-color:transparent;
-    border: 1px solid #fbd1a2;
-    text-align: left;
-    cursor: pointer;
-    outline: none;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.collapsible-content {
-    display: none;
-    padding: 10px;
-    background-color: transparent;
-    border-radius: 5px;
-}
-
-.collapsible-content.show {
-    display: block;
-}
 .stock-details-page {
     display: flex;
     justify-content: space-between;
@@ -98,21 +65,74 @@
     color: #CD0E0E;
     margin-right: 5px;
 }
-.watchlist-container {
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7); 
     display: flex;
+    justify-content: center; 
     align-items: center;
+    z-index: 10; 
 }
 
-.add-watchlist-btn {
-    margin-left: 10px;
-    padding: 5px 10px;
+.popup-message {
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-align: center;
+    z-index: 11; 
+}
+.popup-message.error {
+    background-color: #CD0E0E; 
+    color: white;
+}
+.stock-trade-container {
     background-color: transparent;
+    padding: 20px;
+    border-radius: 4px;
+    border: 0.5px solid #fbd1a2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.stock-trade-container h3 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+.stock-trade-container label {
+    font-size: 14px;
+    color: white;
+}
+
+.stock-trade-container input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.stock-trade-container button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    background-color: #1D4E89;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.add-watchlist-btn:hover {
-    background-color: grey;
+.stock-trade-container button:hover {
+    background-color: #13335a;
 }
+
+

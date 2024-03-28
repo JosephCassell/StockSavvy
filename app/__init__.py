@@ -9,6 +9,9 @@ from .seeds.users import seed_users
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.stock_details import stock_details
+from .api.profile import profile
+from .api.transfer import transfer
+from .api.update_stocks import update_stocks
 from .seeds import seed_commands
 from .config import Config
 
@@ -31,6 +34,9 @@ app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(stock_details, url_prefix='/stockDetails')
+app.register_blueprint(profile, url_prefix='/profile')
+app.register_blueprint(transfer, url_prefix='/transfer')
+app.register_blueprint(update_stocks, url_prefix='/updateStocks')
 db.init_app(app)
 Migrate(app, db)
 

@@ -1,7 +1,16 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import {fetchStockDetails,fetchStockHistoryAll,fetchStockHistory1D,fetchStockHistory1W,fetchStockHistory1M,} from '../../redux/stockActions';
+import {
+fetchStockDetails, 
+fetchStockHistoryAll, 
+fetchStockHistory1D, 
+fetchStockHistory1W, 
+fetchStockHistory1M, 
+buyStock, 
+sellStock,
+checkOwnership
+} from '../../redux/stockActions';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import './StockDetails.css';
 
@@ -10,14 +19,16 @@ const StockDetails = () => {
     const { symbol } = useParams();
     const stockDetails = useSelector((state) => state.stock.stock);
     const loading = useSelector((state) => state.stock.loading);
+    const userOwnsStock = useSelector((state) => state.stock.ownsStock);
     const error = useSelector((state) => state.stock.error);
+    const [popupMessage, setPopupMessage] = useState({ visible: false, content: '' });
+    const [errorMessage, setErrorMessage] = useState({ visible: false, content: '' });
     const [hoveredPrice, setHoveredPrice] = useState(null);
     const [selectedRange, setSelectedRange] = useState('all');
-    const [showPortfolios, setShowPortfolios] = useState(false);
-    const [showWatchlists, setShowWatchlists] = useState(false);
     const [initialRangePrice, setInitialRangePrice] = useState(0);
     const [priceDifference, setPriceDifference] = useState({ amount: 0, percentage: 0 });
-    
+    const [quantity, setQuantity] = useState(1);
+
     const history = useSelector((state) => {
       switch (selectedRange) {
         case '1d':
@@ -53,60 +64,59 @@ const StockDetails = () => {
           const now = new Date();
           return (now - itemDate) / (24 * 60 * 60 * 1000) < 30;
       }).reverse() : [];
-  }, [history]);
+    }, [history]);
   
-  const filteredData3M = useMemo(() => {
-    return history.historical ? history.historical.filter(item => {
-        const itemDate = new Date(item.date);
-        const now = new Date();
-        return (now - itemDate) / (24 * 60 * 60 * 1000) < 90;
-    }).reverse() : [];
-  }, [history]);
+    const filteredData3M = useMemo(() => {
+        return history.historical ? history.historical.filter(item => {
+            const itemDate = new Date(item.date);
+            const now = new Date();
+            return (now - itemDate) / (24 * 60 * 60 * 1000) < 90;
+        }).reverse() : [];
+    }, [history]);
 
-  const filteredDataYTD = useMemo(() => {
-    const now = new Date();
-    return history.historical ? history.historical.filter(item => {
-        const itemDate = new Date(item.date);
-        return itemDate.getFullYear() === now.getFullYear();
-    }).reverse() : [];
-  }, [history]);
-
-  const filteredData1Y = useMemo(() => {
-    return history.historical ? history.historical.filter(item => {
-        const itemDate = new Date(item.date);
+    const filteredDataYTD = useMemo(() => {
         const now = new Date();
-        return (now - itemDate) / (24 * 60 * 60 * 1000) < 365;
-    }).reverse() : [];
-  }, [history]);
+        return history.historical ? history.historical.filter(item => {
+            const itemDate = new Date(item.date);
+            return itemDate.getFullYear() === now.getFullYear();
+        }).reverse() : [];
+    }, [history]);
+
+    const filteredData1Y = useMemo(() => {
+        return history.historical ? history.historical.filter(item => {
+            const itemDate = new Date(item.date);
+            const now = new Date();
+            return (now - itemDate) / (24 * 60 * 60 * 1000) < 365;
+        }).reverse() : [];
+    }, [history]);
 
   const filteredDataAll = useMemo(() => {
     return history.historical ? history.historical.reverse() : [];
   }, [history]);
 
     
-  const filteredData = useMemo(() => {
-    switch (selectedRange) {
-        case '1d':
-            return filteredData1D;
-        case '1w':
-            return filteredData1W;
-        case '1m':
-            return filteredData1M;
-        case '3m':
-            return filteredData3M;
-        case 'YTD':
-            return filteredDataYTD;
-        case '1y':
-            return filteredData1Y;
-        case 'all':
-            return filteredDataAll;
-        default:
-            return [];
-    }
-}, [selectedRange, filteredData1D, filteredData1W, filteredData1M, filteredData3M, filteredDataYTD, filteredData1Y, filteredDataAll]);
+    const filteredData = useMemo(() => {
+        switch (selectedRange) {
+            case '1d':
+                return filteredData1D;
+            case '1w':
+                return filteredData1W;
+            case '1m':
+                return filteredData1M;
+            case '3m':
+                return filteredData3M;
+            case 'YTD':
+                return filteredDataYTD;
+            case '1y':
+                return filteredData1Y;
+            case 'all':
+                return filteredDataAll;
+            default:
+                return [];
+        }
+    }, [selectedRange, filteredData1D, filteredData1W, filteredData1M, filteredData3M, filteredDataYTD, filteredData1Y, filteredDataAll]);
     
-    
-      const tabOptions = [
+    const tabOptions = [
         { label: '1d', range: '1d' },
         { label: '1w', range: '1w' },
         { label: '1m', range: '1m' },
@@ -114,42 +124,62 @@ const StockDetails = () => {
         { label: 'YTD', range: 'YTD' },
         { label: '1y', range: '1y' },
         { label: 'All', range: 'all' }
-      ];
+    ];
     
-  useEffect(() => {
-    const fetchStockData = () => {
-      if (symbol) {
-          dispatch(fetchStockDetails(symbol));
-          switch (selectedRange) {
-              case '1d':
-                  dispatch(fetchStockHistory1D(symbol));
-                  break;
-              case '1w':
-                  dispatch(fetchStockHistory1W(symbol));
-                  break;
-              case '1m':
-                  dispatch(fetchStockHistory1M(symbol));
-                  break;
-              default:
-                  dispatch(fetchStockHistoryAll(symbol));
-                  break;
-          }
-      }
-    };
-      fetchStockData(); 
-      const intervalId = setInterval(fetchStockData, 60000); 
+    useEffect(() => {
+        const fetchStockData = () => {
+            if (symbol) {
+                dispatch(fetchStockDetails(symbol));
+                switch (selectedRange) {
+                    case '1d':
+                        dispatch(fetchStockHistory1D(symbol));
+                        break;
+                    case '1w':
+                        dispatch(fetchStockHistory1W(symbol));
+                        break;
+                    case '1m':
+                        dispatch(fetchStockHistory1M(symbol));
+                        break;
+                    default:
+                        dispatch(fetchStockHistoryAll(symbol));
+                        break;
+                }
+            }
+        };
+        fetchStockData(); 
+        const intervalId = setInterval(fetchStockData, 60000); 
 
-      return () => clearInterval(intervalId);
-  }, [dispatch, symbol, selectedRange]);      
-  useEffect(() => {
-    if (filteredData.length > 0) {
-        const initialPriceForRange = filteredData[0].close;
-        const currentPrice = filteredData[filteredData.length - 1].close;
-        setInitialRangePrice(initialPriceForRange);
-        setPriceDifference(currentPrice - initialPriceForRange);
-    }
-  }, [filteredData]);
-
+        return () => clearInterval(intervalId);
+    }, [dispatch, symbol, selectedRange]);      
+    useEffect(() => {
+        if (filteredData.length > 1) {
+            const initialPriceForRange = filteredData[0].close;
+            const currentPrice = filteredData[filteredData.length - 1].close;
+            setInitialRangePrice(initialPriceForRange);
+            const difference = currentPrice - initialPriceForRange;
+            const percentageChange = (difference / initialPriceForRange) * 100;
+            setPriceDifference({ amount: difference, percentage: percentageChange });
+        }
+    }, [filteredData]);
+    useEffect(() => {
+        if (symbol) {
+          dispatch(checkOwnership(symbol));
+        }
+    }, [dispatch, symbol]);
+    useEffect(() => {
+        const buySuccessMessage = localStorage.getItem('buySuccessMessage');
+        const sellSuccessMessage = localStorage.getItem('sellSuccessMessage');
+        if (buySuccessMessage) {
+            setPopupMessage({ visible: true, content: buySuccessMessage });
+            localStorage.removeItem('buySuccessMessage');
+        } else if (sellSuccessMessage) {
+            setPopupMessage({ visible: true, content: sellSuccessMessage });
+            localStorage.removeItem('sellSuccessMessage');
+        }
+    }, []);
+    
+    
+      
     if (!history || history.length === 0) {
         return <div>Loading chart data...</div>;
     }
@@ -180,36 +210,61 @@ const StockDetails = () => {
         }
     };
 
-  const calculatePriceDifference = (newPrice) => {
+    const calculatePriceDifference = (newPrice) => {
       const difference = newPrice - initialRangePrice;
       const percentageChange = (difference / initialRangePrice) * 100;
       setPriceDifference({ amount: difference, percentage: percentageChange });
-  };
+    };
   
-  const handleMouseMove = (data) => {
+    const handleMouseMove = (data) => {
       if (data && data.activePayload) {
           const newHoveredPrice = data.activePayload[0].value;
           setHoveredPrice(newHoveredPrice);
           calculatePriceDifference(newHoveredPrice);
       }
-  };
+    };
   
-  const handleMouseLeave = () => {
-      setHoveredPrice(null);
-      if (filteredData.length > 0) {
-          const currentPrice = filteredData[0].close;
-          calculatePriceDifference(currentPrice);
-      }
-  };  
-          
+    const handleMouseLeave = () => {
+        setHoveredPrice(null);
+        if (filteredData.length > 0) {
+            const initialPriceForRange = filteredData[0].close;
+            const finalPriceForRange = filteredData[filteredData.length - 1].close;
+            setPriceDifference({
+                amount: finalPriceForRange - initialPriceForRange,
+                percentage: ((finalPriceForRange - initialPriceForRange) / initialPriceForRange) * 100,
+            });
+        }
+    };
+
+    const handleBuy = async () => {
+        const response = await dispatch(buyStock(symbol, quantity));
+        if (response && response.error) {
+            setErrorMessage({ visible: true, content: response.error });
+        } else if (response && response.message === 'Stock purchased successfully') {
+            localStorage.setItem('buySuccessMessage', 'Purchase successful');
+            window.location.reload();
+        }
+    };
+
+    const handleSell = async () => {
+        const response = await dispatch(sellStock(symbol, quantity));
+        if (response && response.error) {
+            setErrorMessage({ visible: true, content: response.error });
+        } else if (response && response.message === 'Stock sold successfully') {
+            localStorage.setItem('sellSuccessMessage', 'Sale successful');
+            window.location.reload();
+        }
+    };
+    
+    const closePopup = () => {
+        setPopupMessage({ visible: false, content: '' });
+    };
+
     const closeValues = filteredData.map(item => item.close);
     const minValue = Math.min(...closeValues);
     const maxValue = Math.max(...closeValues);
     const buffer = (maxValue - minValue) * 0.05;
     const yAxisDomain = [minValue - buffer, maxValue + buffer];
-    const togglePortfolios = () => setShowPortfolios(!showPortfolios);
-    const toggleWatchlists = () => setShowWatchlists(!showWatchlists);
-    const addWatchlist = () => console.log("Add watchlist");
     return (
         <div className="stock-details-page">
             <div className="stock-chart-container">
@@ -246,27 +301,38 @@ const StockDetails = () => {
                     {/* List of items representing movers */}
                 </div>
             </div>
-            <div className="collapsible-containers">
-                <button className="collapsible-toggle" onClick={togglePortfolios}>
-                    Portfolios
-                </button>
-                <div className={`collapsible-content ${showPortfolios ? 'show' : ''}`}>
-                    {/* List of portfolios */}
+            <div className="stock-trade-container">
+                <h3>Trade {symbol}</h3>
+                <div>
+                    <label htmlFor="quantity">Quantity:</label>
+                    <input
+                        type="number"
+                        id="quantity"
+                        value={quantity}
+                        onChange={(e) => setQuantity(Number(e.target.value))}
+                        min={1}
+                    />
                 </div>
-                <div className="watchlist-container">
-                  <button className="collapsible-toggle" onClick={toggleWatchlists}>
-                      Watchlists
-                  </button>
-                  <button className="add-watchlist-btn" onClick={addWatchlist}>
-                  +
-                  </button>
-                </div>
-                <div className={`collapsible-content ${showWatchlists ? 'show' : ''}`}>
-                    {/* List of watchlists */}
-                </div>
+                <button onClick={handleBuy}>Buy</button>
+                {userOwnsStock && <button onClick={handleSell}>Sell</button>}
             </div>
+                {popupMessage.visible && (
+                    <div className="overlay" onClick={closePopup}>
+                        <div className="popup-message" onClick={closePopup}>
+                            {popupMessage.content}
+                            <div>(click to close)</div>
+                        </div>
+                    </div>
+                )}
+                {errorMessage.visible && (
+                    <div className="overlay" onClick={() => setErrorMessage({ visible: false, content: '' })}>
+                        <div className="popup-message error" onClick={closePopup}>
+                            {errorMessage.content}
+                            <div>(click to close)</div>
+                        </div>
+                    </div>
+                )}
         </div>
-
     );
 };
 
