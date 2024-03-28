@@ -3,6 +3,7 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import LandingPage from '../components/LandingPage/LandingPage';
 import StockDetails from '../components/StockDetails/StockDetails';
+import Profile from '../components/Profile/Profile';
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       {
         path: "/stockDetails/:symbol",
         element: <StockDetails />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },
