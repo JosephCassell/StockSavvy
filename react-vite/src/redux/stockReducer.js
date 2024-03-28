@@ -17,7 +17,10 @@ import {
 
   STOCK_HISTORY_1M_REQUEST,
   STOCK_HISTORY_1M_SUCCESS,
-  STOCK_HISTORY_1M_FAIL
+  STOCK_HISTORY_1M_FAIL,
+
+  UPDATE_STOCKS,
+  SET_OWNERSHIP
 } from './stockActions';
 
 const initialState = {
@@ -70,6 +73,11 @@ const stockReducer = (state = initialState, action) => {
       return { ...state, loadingHistory: false, history1M: action.payload };
     case STOCK_HISTORY_1M_FAIL:
       return { ...state, loadingHistory: false, errorHistory: action.payload };
+
+    case UPDATE_STOCKS:
+      return { ...state, stock: action.payload };
+    case SET_OWNERSHIP:
+      return { ...state, ownsStock: action.payload };
     default:
       return state;
   }

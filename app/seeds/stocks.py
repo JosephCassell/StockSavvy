@@ -3,31 +3,9 @@ import requests
 from app.models import db, Stock, environment, SCHEMA
 from sqlalchemy.sql import text
 
-API_KEY = os.environ.get('STOCK_API_KEY')
 
-def fetch_stock_data(symbol):
-    url = f'https://financialmodelingprep.com/api/v3/profile/{symbol}'
-    params = {'apikey': API_KEY}
-    res = requests.get(url, params=params)
-    if res.status_code == 200:
-        return res.json()
-    else:
-        raise Exception('Failed to fetch data for the given symbol.')
 
-def seed_stocks():
-    symbols = ['GME', 'AAPL', 'AMD', 'TSLA', 'NFLX', 'META', 'MSFT', 'GRPO', 'SBUX', 'GE', 'NOK', 'JPM', 'WMT', 'BAC', 'WFC', 'LOW', 'PG', 'SIEGY', 'PGR', 'WM', 'CMG', 'CL', 'MAR', 'ORLY', 'MNST', 'MSI', 'COF', 'HLT', 'RYCEY', 'EBAY']
-    for symbol in symbols:
-        data = fetch_stock_data(symbol)
-        if data:
-            data = data[0]
-            stock = Stock(
-                name=data['companyName'],
-                symbol=symbol,
-                current_price=data['price'],
-                company_info=data['description']
-            )
-            db.session.add(stock)
-    db.session.commit()
+
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
 # have a built in function to do this. With postgres in production TRUNCATE

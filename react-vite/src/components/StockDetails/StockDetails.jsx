@@ -1,7 +1,16 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchStockDetails, fetchStockHistoryAll, fetchStockHistory1D, fetchStockHistory1W, fetchStockHistory1M, } from '../../redux/stockActions';
+import {
+    fetchStockDetails,
+    fetchStockHistoryAll,
+    fetchStockHistory1D,
+    fetchStockHistory1W,
+    fetchStockHistory1M,
+    buyStock,
+    sellStock,
+    checkOwnership
+} from '../../redux/stockActions';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import './StockDetails.css';
 
@@ -10,11 +19,15 @@ const StockDetails = () => {
     const { symbol } = useParams();
     const stockDetails = useSelector((state) => state.stock.stock);
     const loading = useSelector((state) => state.stock.loading);
+    const userOwnsStock = useSelector((state) => state.stock.ownsStock);
     const error = useSelector((state) => state.stock.error);
+    const [popupMessage, setPopupMessage] = useState({ visible: false, content: '' });
+    const [errorMessage, setErrorMessage] = useState({ visible: false, content: '' });
     const [hoveredPrice, setHoveredPrice] = useState(null);
     const [selectedRange, setSelectedRange] = useState('all');
     const [initialRangePrice, setInitialRangePrice] = useState(0);
     const [priceDifference, setPriceDifference] = useState({ amount: 0, percentage: 0 });
+    const [quantity, setQuantity] = useState(1);
 
     const history = useSelector((state) => {
         switch (selectedRange) {
@@ -81,7 +94,6 @@ const StockDetails = () => {
         return history.historical ? history.historical.reverse() : [];
     }, [history]);
 
-
     const filteredData = useMemo(() => {
         switch (selectedRange) {
             case '1d':
@@ -102,7 +114,6 @@ const StockDetails = () => {
                 return [];
         }
     }, [selectedRange, filteredData1D, filteredData1W, filteredData1M, filteredData3M, filteredDataYTD, filteredData1Y, filteredDataAll]);
-
 
     const tabOptions = [
         { label: '1d', range: '1d' },
@@ -139,15 +150,34 @@ const StockDetails = () => {
 
         return () => clearInterval(intervalId);
     }, [dispatch, symbol, selectedRange]);
-
     useEffect(() => {
-        if (filteredData.length > 0) {
+        if (filteredData.length > 1) {
             const initialPriceForRange = filteredData[0].close;
             const currentPrice = filteredData[filteredData.length - 1].close;
             setInitialRangePrice(initialPriceForRange);
-            setPriceDifference(currentPrice - initialPriceForRange);
+            const difference = currentPrice - initialPriceForRange;
+            const percentageChange = (difference / initialPriceForRange) * 100;
+            setPriceDifference({ amount: difference, percentage: percentageChange });
         }
     }, [filteredData]);
+    useEffect(() => {
+        if (symbol) {
+            dispatch(checkOwnership(symbol));
+        }
+    }, [dispatch, symbol]);
+    useEffect(() => {
+        const buySuccessMessage = localStorage.getItem('buySuccessMessage');
+        const sellSuccessMessage = localStorage.getItem('sellSuccessMessage');
+        if (buySuccessMessage) {
+            setPopupMessage({ visible: true, content: buySuccessMessage });
+            localStorage.removeItem('buySuccessMessage');
+        } else if (sellSuccessMessage) {
+            setPopupMessage({ visible: true, content: sellSuccessMessage });
+            localStorage.removeItem('sellSuccessMessage');
+        }
+    }, []);
+
+
 
     if (!history || history.length === 0) {
         return <div>Loading chart data...</div>;
@@ -196,9 +226,37 @@ const StockDetails = () => {
     const handleMouseLeave = () => {
         setHoveredPrice(null);
         if (filteredData.length > 0) {
-            const currentPrice = filteredData[0].close;
-            calculatePriceDifference(currentPrice);
+            const initialPriceForRange = filteredData[0].close;
+            const finalPriceForRange = filteredData[filteredData.length - 1].close;
+            setPriceDifference({
+                amount: finalPriceForRange - initialPriceForRange,
+                percentage: ((finalPriceForRange - initialPriceForRange) / initialPriceForRange) * 100,
+            });
         }
+    };
+
+    const handleBuy = async () => {
+        const response = await dispatch(buyStock(symbol, quantity));
+        if (response && response.error) {
+            setErrorMessage({ visible: true, content: response.error });
+        } else if (response && response.message === 'Stock purchased successfully') {
+            localStorage.setItem('buySuccessMessage', 'Purchase successful');
+            window.location.reload();
+        }
+    };
+
+    const handleSell = async () => {
+        const response = await dispatch(sellStock(symbol, quantity));
+        if (response && response.error) {
+            setErrorMessage({ visible: true, content: response.error });
+        } else if (response && response.message === 'Stock sold successfully') {
+            localStorage.setItem('sellSuccessMessage', 'Sale successful');
+            window.location.reload();
+        }
+    };
+
+    const closePopup = () => {
+        setPopupMessage({ visible: false, content: '' });
     };
 
     const closeValues = filteredData.map(item => item.close);
@@ -242,8 +300,38 @@ const StockDetails = () => {
                     {/* List of items representing movers */}
                 </div>
             </div>
+            <div className="stock-trade-container">
+                <h3>Trade {symbol}</h3>
+                <div>
+                    <label htmlFor="quantity">Quantity:</label>
+                    <input
+                        type="number"
+                        id="quantity"
+                        value={quantity}
+                        onChange={(e) => setQuantity(Number(e.target.value))}
+                        min={1}
+                    />
+                </div>
+                <button onClick={handleBuy}>Buy</button>
+                {userOwnsStock && <button onClick={handleSell}>Sell</button>}
+            </div>
+            {popupMessage.visible && (
+                <div className="overlay" onClick={closePopup}>
+                    <div className="popup-message" onClick={closePopup}>
+                        {popupMessage.content}
+                        <div>(click to close)</div>
+                    </div>
+                </div>
+            )}
+            {errorMessage.visible && (
+                <div className="overlay" onClick={() => setErrorMessage({ visible: false, content: '' })}>
+                    <div className="popup-message error" onClick={closePopup}>
+                        {errorMessage.content}
+                        <div>(click to close)</div>
+                    </div>
+                </div>
+            )}
         </div>
-
     );
 };
 

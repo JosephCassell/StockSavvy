@@ -18,6 +18,10 @@ export const STOCK_HISTORY_1M_REQUEST = 'stock/STOCK_HISTORY_1M_REQUEST';
 export const STOCK_HISTORY_1M_SUCCESS = 'stock/STOCK_HISTORY_1M_SUCCESS';
 export const STOCK_HISTORY_1M_FAIL = 'stock/STOCK_HISTORY_1M_FAIL';
 
+export const UPDATE_STOCKS = 'stock/updateStocks';
+
+export const SET_OWNERSHIP = 'stock/setOwnership';
+
 // Fetch historical data for 1d
 export const fetchStockHistory1D = (symbol) => async (dispatch) => {
   try {
@@ -74,5 +78,79 @@ export const fetchStockHistoryAll = (symbol) => async (dispatch) => {
     dispatch({ type: STOCK_HISTORY_ALL_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: STOCK_HISTORY_ALL_FAIL, payload: error.message });
+  }
+};
+
+export const updateStocks = (stock) => ({
+  type: UPDATE_STOCKS,
+  payload: stock
+});
+// Buy a stock
+export const buyStock = (symbol, quantity) => async (dispatch) => {
+  try {
+    const response = await fetch('/updateStocks/buy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ symbol, quantity })
+    });
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(updateStocks(data.stocks));
+      return data;
+    } else {
+      const errorData = await response.json();
+      console.error('Error buying stock:', errorData.error);
+      return { error: errorData.error };
+    }
+  } catch (error) {
+    console.error('Error buying stock:', error);
+    return { error: 'Network error' };
+  }
+};
+
+// Sell a stock
+export const sellStock = (symbol, quantity) => async (dispatch) => {
+  try {
+    const response = await fetch('/updateStocks/sell', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ symbol, quantity })
+    });
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(updateStocks(data.stocks));
+      return data;
+    } else {
+      const errorData = await response.json();
+      console.error('Error selling stock:', errorData.error);
+      return { error: errorData.error };
+    }
+  } catch (error) {
+    console.error('Error selling stock:', error);
+    return { error: 'Network error' };
+  }
+};
+
+
+export const setOwnership = (ownsStock) => ({
+  type: SET_OWNERSHIP,
+  payload: ownsStock
+});
+
+// Get current user's stock by symbol
+export const checkOwnership = (symbol) => async (dispatch) => {
+  try {
+    const response = await fetch(`/updateStocks/user/${symbol}`);
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(setOwnership(data.owns_stock));
+      return data.owns_stock;
+    } else {
+      console.error('Error checking ownership: Response not OK');
+      return false;
+    }
+  } catch (error) {
+    console.error('Error checking ownership:', error);
+    return false;
   }
 };
