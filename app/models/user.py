@@ -15,7 +15,9 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+    cash = db.Column(db.Float, default=0.0)
 
+    stocks = db.relationship('Stock', back_populates='user')
     watchlists = db.relationship('Watchlist', back_populates='user')
     portfolios = db.relationship('Portfolio', back_populates='user')
 
