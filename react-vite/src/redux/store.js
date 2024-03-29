@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
   session: sessionReducer,
   stock: stockReducer,
   portfolio: portfolioReducer,
-  watchlist: watchlistReducer,
+  watchlists: watchlistReducer,
   account: transferReducer,
   profile: profileReducer
 });

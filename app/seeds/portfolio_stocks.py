@@ -2,7 +2,7 @@ from app.models import db, PortfolioStock, environment, SCHEMA
 from sqlalchemy.sql import text
 
 
-# def seed_portfolio_stocks():
+def seed_portfolio_stocks():
 #     demo1 = PortfolioStock(portfolio_id=1, stock_id=1, shares=1, average_cost=14.90, total_return=0, equity=0)
 #     demo2 = PortfolioStock(portfolio_id=1, stock_id=2, shares=1, average_cost=171.20, total_return=0, equity=0)
 #     demo3 = PortfolioStock(portfolio_id=1, stock_id=3, shares=1, average_cost=168.16, total_return=0, equity=0)
@@ -64,7 +64,7 @@ from sqlalchemy.sql import text
 #     db.session.add(bobbie8)
 #     db.session.add(bobbie9)
 #     db.session.add(bobbie10)
-#     db.session.commit()
+    db.session.commit()
 
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't

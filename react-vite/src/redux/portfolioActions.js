@@ -1,9 +1,9 @@
-export const LOAD_PORTFOLIO = 'portfolio/LOAD_PORTFOLIO'
+export const LOAD_PORTFOLIOS = 'portfolio/LOAD_PORTFOLIO'
 
-const loadPortfolio = portfolio => {
+const loadPortfolios = portfolios => {
     return {
-        type: LOAD_PORTFOLIO,
-        portfolio
+        type: LOAD_PORTFOLIOS,
+        portfolios
     };
 };
 
@@ -12,7 +12,7 @@ export const fetchPortfolio = userId => async dispatch => {
 
     if (res.ok) {
         const data = await res.json();
-        dispatch(loadPortfolio(data));
+        dispatch(loadPortfolios(data));
         return data;
     }
 };

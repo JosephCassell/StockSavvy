@@ -14,6 +14,7 @@ from .api.stock_details import stock_details
 from .api.profile import profile
 from .api.transfer import transfer
 from .api.update_stocks import update_stocks
+from .api.search import search
 from .seeds import seed_commands
 from .config import Config
 
@@ -41,6 +42,7 @@ app.register_blueprint(stock_details, url_prefix='/stockDetails')
 app.register_blueprint(profile, url_prefix='/profile')
 app.register_blueprint(transfer, url_prefix='/transfer')
 app.register_blueprint(update_stocks, url_prefix='/updateStocks')
+app.register_blueprint(search, url_prefix='/search')
 db.init_app(app)
 Migrate(app, db)
 

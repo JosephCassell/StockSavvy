@@ -22,6 +22,10 @@ export const UPDATE_STOCKS = 'stock/updateStocks';
 
 export const SET_OWNERSHIP = 'stock/setOwnership';
 
+export const SEARCH_STOCKS_REQUEST = 'stock/SEARCH_STOCKS_REQUEST';
+export const SEARCH_STOCKS_SUCCESS = 'stock/SEARCH_STOCKS_SUCCESS';
+export const SEARCH_STOCKS_FAILURE = 'stock/SEARCH_STOCKS_FAILURE';
+
 // Fetch historical data for 1d
 export const fetchStockHistory1D = (symbol) => async (dispatch) => {
   try {
@@ -152,5 +156,17 @@ export const checkOwnership = (symbol) => async (dispatch) => {
   } catch (error) {
     console.error('Error checking ownership:', error);
     return false;
+  }
+};
+
+// Search for a stock
+export const searchStocks = (query) => async (dispatch) => {
+  try {
+      dispatch({ type: SEARCH_STOCKS_REQUEST });
+      const response = await fetch(`/search_stocks?query=${query}`);
+      const data = await response.json();
+      dispatch({ type: SEARCH_STOCKS_SUCCESS, payload: data });
+  } catch (error) {
+      dispatch({ type: SEARCH_STOCKS_FAILURE, payload: error.message });
   }
 };

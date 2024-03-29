@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'; 
 import { thunkLogout } from '../../redux/session'; 
-import { useState, useEffect } from 'react'; 
+import { useState, useEffect, useRef } from 'react'; 
 import { fetchInitialBalance } from '../../redux/transferActions';
 import TransferModal from "../TransferModal/TransferModal";
 import logo from '../../../../Photos/Logo.png';
@@ -14,13 +14,31 @@ function Navigation() {
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const dropdownRef = useRef(null);
+  const accountButtonRef = useRef(null);
 
   useEffect(() => {
     if (user) {
       dispatch(fetchInitialBalance(user.id));
     }
   }, [user, dispatch]);
-
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !(accountButtonRef.current && accountButtonRef.current.contains(event.target)) &&
+        showDropdown
+      ) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showDropdown]);
+  
   const openTransferModal = () => {
     setShowTransferModal(true);
   };
@@ -39,6 +57,7 @@ function Navigation() {
     navigate('/');
   };
   const profile = () => {
+    setShowDropdown(false);
     navigate('profile')
   }
   const toggleDropdown = () => {
@@ -65,15 +84,16 @@ function Navigation() {
         <NavLink to="/notifications" className="Notifications">NOTIFICATIONS</NavLink>
       </li>
       <li className="account-nav-item">
-        <button onClick={toggleDropdown} className="Account">
-          ACCOUNT 
-          <div className="hamburger-menu"></div></button>
-        {showDropdown && (
-          <div className="account-dropdown show-dropdown">
-            <button onClick={profile} className="profile">{user.first_name} {user.last_name}</button>
-            <button onClick={logout} className="logout">LOG OUT</button>
-          </div>
-        )}
+        <button ref={accountButtonRef} onClick={toggleDropdown} className="Account">
+          ACCOUNT
+          <div className="hamburger-menu"></div>
+        </button>
+          {showDropdown && (
+            <div ref={dropdownRef} className="account-dropdown show-dropdown">
+              <button onClick={profile} className="profile">{user.first_name} {user.last_name}</button>
+              <button onClick={logout} className="logout">LOG OUT</button>
+            </div>
+          )}
       </li>
     </ul>
   );

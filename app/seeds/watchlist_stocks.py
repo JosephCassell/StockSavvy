@@ -3,8 +3,6 @@ from sqlalchemy.sql import text
 
 
 def seed_watchlist_stocks():
-    db.session.commit()
-# def seed_watchlist_stocks():
 #     demo1 = WatchlistStock(watchlist_id=1, stock_id=1)
 #     demo2 = WatchlistStock(watchlist_id=1, stock_id=2)
 #     demo3 = WatchlistStock(watchlist_id=1, stock_id=3)
@@ -66,7 +64,7 @@ def seed_watchlist_stocks():
 #     db.session.add(bobbie8)
 #     db.session.add(bobbie9)
 #     db.session.add(bobbie10)
-#     db.session.commit()
+      db.session.commit()
 
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't

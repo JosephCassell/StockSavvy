@@ -20,7 +20,11 @@ import {
   STOCK_HISTORY_1M_FAIL,
 
   UPDATE_STOCKS,
-  SET_OWNERSHIP
+  SET_OWNERSHIP,
+
+  SEARCH_STOCKS_FAILURE,
+  SEARCH_STOCKS_REQUEST,
+  SEARCH_STOCKS_SUCCESS
 } from './stockActions';
 
 const initialState = {
@@ -78,7 +82,15 @@ const stockReducer = (state = initialState, action) => {
       return { ...state, stock: action.payload };
     case SET_OWNERSHIP:
       return { ...state, ownsStock: action.payload };
-    default:
+    
+    case SEARCH_STOCKS_REQUEST:
+        return { ...state, loading: true };
+    case SEARCH_STOCKS_SUCCESS:
+        return { ...state, loading: false, stocks: action.payload };
+    case SEARCH_STOCKS_FAILURE:
+        return { ...state, loading: false, error: action.payload };
+    
+        default:
       return state;
   }
 };

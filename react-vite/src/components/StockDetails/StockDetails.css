@@ -37,6 +37,9 @@
     margin-right: 20px; 
 }
 .market-movers-container {
+    background-color: transparent;
+    border-radius: 4px;
+    border: 0.5px solid #fbd1a2;
 }
 
 .stock-chart-container {
@@ -61,7 +64,7 @@
     padding: 10px;
     margin-top: 0;
 }
-}
+
 
 .price-difference.positive {
     color: #08BD20;

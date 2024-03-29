@@ -31,7 +31,7 @@ def get_user_profile():
                     "average_cost": ps.average_cost,
                     "total_return": ps.total_return,
                     "equity": ps.equity,
-                    "current_price": ps.current_price,
+                    "current_price": Stock.query.get(ps.stock_id).current_price,  # Fetch the current price from the associated Stock instance
                 } for ps in portfolio_stocks
             ],
         }

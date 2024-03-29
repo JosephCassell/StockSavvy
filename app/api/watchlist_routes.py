@@ -89,3 +89,36 @@ def delete_watchlist(id):
     db.session.delete(watchlist)
     db.session.commit()
     return jsonify({'message': 'Watchlist successfully deleted.'}), 200
+
+# Add a stock to a watchlist
+@watchlist_routes.route('/<int:watchlist_id>/stocks', methods=['POST'])
+@login_required
+def add_stock_to_watchlist(watchlist_id):
+    data = request.get_json()
+    stock_symbol = data.get('symbol')
+
+    watchlist = Watchlist.query.filter_by(id=watchlist_id, user_id=current_user.id).first()
+    if watchlist is None:
+        return {'errors': {'message': 'Watchlist not found'}}, 404
+
+    stock = Stock.query.filter_by(symbol=stock_symbol).first()
+    if stock is None:
+        return {'errors': {'message': 'Stock not found'}}, 404
+
+    watchlist_stock = WatchlistStock(
+        watchlist_id=watchlist_id,
+        stock_id=stock.id
+    )
+    db.session.add(watchlist_stock)
+    db.session.commit()
+    return jsonify(watchlist_stock.to_dict()), 201
+
+@watchlist_routes.route('/<int:watchlist_id>/stocks/<int:stock_id>', methods=['DELETE'])
+@login_required
+def delete_stock_from_watchlist(watchlist_id, stock_id):
+    watchlist_stock = WatchlistStock.query.filter_by(watchlist_id=watchlist_id, stock_id=stock_id).first()
+    if watchlist_stock is None:
+        return {'errors': {'message': 'Stock not found in watchlist'}}, 404
+    db.session.delete(watchlist_stock)
+    db.session.commit()
+    return {'message': 'Stock removed from watchlist'}, 200
