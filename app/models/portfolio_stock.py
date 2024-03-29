@@ -11,9 +11,10 @@ class PortfolioStock(db.Model):
     stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'), nullable=False)
     stock_symbol = db.Column(db.String(10))
     shares = db.Column(db.Float, nullable=False)
-    average_cost = db.Column(db.Float, nullable=False)
-    total_return = db.Column(db.Float, nullable=False)
-    equity = db.Column(db.Float, nullable=False)
+    total_investment = db.Column(db.Float, nullable=False, default=0)
+    average_cost = db.Column(db.Float, nullable=False, default=0)
+    total_return = db.Column(db.Float, nullable=False, default=0)
+    equity = db.Column(db.Float, nullable=False, default=0)
 
     portfolios = db.relationship('Portfolio', back_populates='portfolio_table')
     stocks = db.relationship('Stock', back_populates='stock_port_table')

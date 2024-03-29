@@ -17,7 +17,6 @@ def user_portfolios(id):
 
     user = User.query.get(id)
     if user:
-        # portfolios_data = []
         portfolio = user.portfolio
         portfolio_stocks = portfolio.portfolio_table
         portfolio_stocks_data = []
@@ -38,7 +37,8 @@ def user_portfolios(id):
                 'stock_id': portfolio_stock.stock_id,
                 'stock_symbol':stock.symbol,
                 'shares': portfolio_stock.shares,
-                'average_cost': (stock.current_price / portfolio_stock.shares),
+                'total_investment': portfolio_stock.total_investment,
+                'average_cost': portfolio_stock.average_cost,
                 'total_return': portfolio_stock.total_return,
                 'equity': portfolio_stock.equity,
                 'stock': stock_data
