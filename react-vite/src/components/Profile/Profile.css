@@ -44,6 +44,7 @@ td {
 
 tr:hover {
     background-color: #393948;
+    cursor: pointer;
 }
 
 tr:last-child td {
