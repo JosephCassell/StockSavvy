@@ -8,6 +8,8 @@ from .models import db, User
 from .seeds.users import seed_users
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
+from .api.portfolio_routes import portfolio_routes
+from .api.watchlist_routes import watchlist_routes
 from .api.stock_details import stock_details
 from .api.profile import profile
 from .api.transfer import transfer
@@ -33,6 +35,8 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(portfolio_routes, url_prefix='/api/portfolios')
+app.register_blueprint(watchlist_routes, url_prefix='/api/watchlists')
 app.register_blueprint(stock_details, url_prefix='/stockDetails')
 app.register_blueprint(profile, url_prefix='/profile')
 app.register_blueprint(transfer, url_prefix='/transfer')

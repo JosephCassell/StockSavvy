@@ -28,7 +28,7 @@ export const fetchStockHistory1D = (symbol) => async (dispatch) => {
     dispatch({ type: STOCK_HISTORY_1D_REQUEST });
     const response = await fetch(`/stockDetails/${symbol}/history/1d`);
     const data = await response.json();
-    dispatch({ type: STOCK_HISTORY_1D_SUCCESS, payload: data });
+    dispatch({ type: STOCK_HISTORY_1D_SUCCESS, payload: { symbol, data } });
   } catch (error) {
     dispatch({ type: STOCK_HISTORY_1D_FAIL, payload: error.message });
   }
@@ -72,12 +72,12 @@ export const fetchStockDetails = (symbol) => async (dispatch) => {
 // Fetch routes for 3M-All
 export const fetchStockHistoryAll = (symbol) => async (dispatch) => {
   try {
-      dispatch({ type: STOCK_HISTORY_ALL_REQUEST });
-      const response = await fetch(`/stockDetails/${symbol}/history/all`);
-      const data = await response.json();
-      dispatch({ type: STOCK_HISTORY_ALL_SUCCESS, payload: data });
+    dispatch({ type: STOCK_HISTORY_ALL_REQUEST });
+    const response = await fetch(`/stockDetails/${symbol}/history/all`);
+    const data = await response.json();
+    dispatch({ type: STOCK_HISTORY_ALL_SUCCESS, payload: data });
   } catch (error) {
-      dispatch({ type: STOCK_HISTORY_ALL_FAIL, payload: error.message });
+    dispatch({ type: STOCK_HISTORY_ALL_FAIL, payload: error.message });
   }
 };
 

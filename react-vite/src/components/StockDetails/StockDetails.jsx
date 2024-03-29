@@ -2,14 +2,14 @@ import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
-fetchStockDetails, 
-fetchStockHistoryAll, 
-fetchStockHistory1D, 
-fetchStockHistory1W, 
-fetchStockHistory1M, 
-buyStock, 
-sellStock,
-checkOwnership
+    fetchStockDetails,
+    fetchStockHistoryAll,
+    fetchStockHistory1D,
+    fetchStockHistory1W,
+    fetchStockHistory1M,
+    buyStock,
+    sellStock,
+    checkOwnership
 } from '../../redux/stockActions';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import './StockDetails.css';
@@ -30,42 +30,42 @@ const StockDetails = () => {
     const [quantity, setQuantity] = useState(1);
 
     const history = useSelector((state) => {
-      switch (selectedRange) {
-        case '1d':
-          return state.stock.history1D;
-        case '1w':
-          return state.stock.history1W;
-        case '1m':
-          return state.stock.history1M;
-        default:
-            return state.stock.historyAll;
-      }
+        switch (selectedRange) {
+            case '1d':
+                return state.stock.history1D;
+            case '1w':
+                return state.stock.history1W;
+            case '1m':
+                return state.stock.history1M;
+            default:
+                return state.stock.historyAll;
+        }
     });
-          
+
     const filteredData1D = useMemo(() => {
-      return Array.isArray(history) ? history.filter(item => {
-          const itemDate = new Date(item.date);
-          const now = new Date();
-          return (now - itemDate) / (24 * 60 * 60 * 1000) < 1;
-      }).reverse() : [];
+        return Array.isArray(history) ? history.filter(item => {
+            const itemDate = new Date(item.date);
+            const now = new Date();
+            return (now - itemDate) / (24 * 60 * 60 * 1000) < 1;
+        }).reverse() : [];
     }, [history]);
-    
+
     const filteredData1W = useMemo(() => {
-      return Array.isArray(history) ? history.filter(item => {
-          const itemDate = new Date(item.date);
-          const now = new Date();
-          return (now - itemDate) / (24 * 60 * 60 * 1000) < 7;
-      }).reverse() : [];
+        return Array.isArray(history) ? history.filter(item => {
+            const itemDate = new Date(item.date);
+            const now = new Date();
+            return (now - itemDate) / (24 * 60 * 60 * 1000) < 7;
+        }).reverse() : [];
     }, [history]);
-    
+
     const filteredData1M = useMemo(() => {
-      return Array.isArray(history) ? history.filter(item => {
-          const itemDate = new Date(item.date);
-          const now = new Date();
-          return (now - itemDate) / (24 * 60 * 60 * 1000) < 30;
-      }).reverse() : [];
+        return Array.isArray(history) ? history.filter(item => {
+            const itemDate = new Date(item.date);
+            const now = new Date();
+            return (now - itemDate) / (24 * 60 * 60 * 1000) < 30;
+        }).reverse() : [];
     }, [history]);
-  
+
     const filteredData3M = useMemo(() => {
         return history.historical ? history.historical.filter(item => {
             const itemDate = new Date(item.date);
@@ -90,11 +90,10 @@ const StockDetails = () => {
         }).reverse() : [];
     }, [history]);
 
-  const filteredDataAll = useMemo(() => {
-    return history.historical ? history.historical.reverse() : [];
-  }, [history]);
+    const filteredDataAll = useMemo(() => {
+        return history.historical ? history.historical.reverse() : [];
+    }, [history]);
 
-    
     const filteredData = useMemo(() => {
         switch (selectedRange) {
             case '1d':
@@ -115,7 +114,7 @@ const StockDetails = () => {
                 return [];
         }
     }, [selectedRange, filteredData1D, filteredData1W, filteredData1M, filteredData3M, filteredDataYTD, filteredData1Y, filteredDataAll]);
-    
+
     const tabOptions = [
         { label: '1d', range: '1d' },
         { label: '1w', range: '1w' },
@@ -125,7 +124,7 @@ const StockDetails = () => {
         { label: '1y', range: '1y' },
         { label: 'All', range: 'all' }
     ];
-    
+
     useEffect(() => {
         const fetchStockData = () => {
             if (symbol) {
@@ -146,11 +145,11 @@ const StockDetails = () => {
                 }
             }
         };
-        fetchStockData(); 
-        const intervalId = setInterval(fetchStockData, 60000); 
+        fetchStockData();
+        const intervalId = setInterval(fetchStockData, 60000);
 
         return () => clearInterval(intervalId);
-    }, [dispatch, symbol, selectedRange]);      
+    }, [dispatch, symbol, selectedRange]);
     useEffect(() => {
         if (filteredData.length > 1) {
             const initialPriceForRange = filteredData[0].close;
@@ -163,7 +162,7 @@ const StockDetails = () => {
     }, [filteredData]);
     useEffect(() => {
         if (symbol) {
-          dispatch(checkOwnership(symbol));
+            dispatch(checkOwnership(symbol));
         }
     }, [dispatch, symbol]);
     useEffect(() => {
@@ -177,9 +176,9 @@ const StockDetails = () => {
             localStorage.removeItem('sellSuccessMessage');
         }
     }, []);
-    
-    
-      
+
+
+
     if (!history || history.length === 0) {
         return <div>Loading chart data...</div>;
     }
@@ -196,34 +195,34 @@ const StockDetails = () => {
         setSelectedRange(range);
         switch (range) {
             case '1d':
-              dispatch(fetchStockHistory1D(symbol));
-              break;
+                dispatch(fetchStockHistory1D(symbol));
+                break;
             case '1w':
-              dispatch(fetchStockHistory1W(symbol));
-              break;
+                dispatch(fetchStockHistory1W(symbol));
+                break;
             case '1m':
-              dispatch(fetchStockHistory1M(symbol));
-              break;
+                dispatch(fetchStockHistory1M(symbol));
+                break;
             default:
-              dispatch(fetchStockHistoryAll(symbol));
-              break;
+                dispatch(fetchStockHistoryAll(symbol));
+                break;
         }
     };
 
     const calculatePriceDifference = (newPrice) => {
-      const difference = newPrice - initialRangePrice;
-      const percentageChange = (difference / initialRangePrice) * 100;
-      setPriceDifference({ amount: difference, percentage: percentageChange });
+        const difference = newPrice - initialRangePrice;
+        const percentageChange = (difference / initialRangePrice) * 100;
+        setPriceDifference({ amount: difference, percentage: percentageChange });
     };
-  
+
     const handleMouseMove = (data) => {
-      if (data && data.activePayload) {
-          const newHoveredPrice = data.activePayload[0].value;
-          setHoveredPrice(newHoveredPrice);
-          calculatePriceDifference(newHoveredPrice);
-      }
+        if (data && data.activePayload) {
+            const newHoveredPrice = data.activePayload[0].value;
+            setHoveredPrice(newHoveredPrice);
+            calculatePriceDifference(newHoveredPrice);
+        }
     };
-  
+
     const handleMouseLeave = () => {
         setHoveredPrice(null);
         if (filteredData.length > 0) {
@@ -255,7 +254,7 @@ const StockDetails = () => {
             window.location.reload();
         }
     };
-    
+
     const closePopup = () => {
         setPopupMessage({ visible: false, content: '' });
     };
@@ -269,11 +268,11 @@ const StockDetails = () => {
         <div className="stock-details-page">
             <div className="stock-chart-container">
                 <h2 className='header'>{symbol}</h2>
-                <div className='price'>${hoveredPrice ? hoveredPrice.toFixed(2) : stockDetails.price}
-                  <div className={`price-difference ${priceDifference.amount > 0 ? 'positive' : priceDifference.amount < 0 ? 'negative' : ''}`}>
-                      {priceDifference.amount !== undefined && priceDifference.percentage !== undefined ? (
-                          `${priceDifference.amount.toFixed(2)} (${priceDifference.percentage.toFixed(2)}%)`) : ('Calculating...')}
-                  </div>
+                <div className='price'>${hoveredPrice ? hoveredPrice.toFixed(2) : Number(stockDetails.price).toFixed(2)}
+                    <div className={`price-difference ${priceDifference.amount > 0 ? 'positive' : priceDifference.amount < 0 ? 'negative' : ''}`}>
+                        {priceDifference.amount !== undefined && priceDifference.percentage !== undefined ? (
+                            `${priceDifference.amount.toFixed(2)} (${priceDifference.percentage.toFixed(2)}%)`) : ('Calculating...')}
+                    </div>
                 </div>
                 <LineChart
                     width={600}
@@ -316,22 +315,22 @@ const StockDetails = () => {
                 <button onClick={handleBuy}>Buy</button>
                 {userOwnsStock && <button onClick={handleSell}>Sell</button>}
             </div>
-                {popupMessage.visible && (
-                    <div className="overlay" onClick={closePopup}>
-                        <div className="popup-message" onClick={closePopup}>
-                            {popupMessage.content}
-                            <div>(click to close)</div>
-                        </div>
+            {popupMessage.visible && (
+                <div className="overlay" onClick={closePopup}>
+                    <div className="popup-message" onClick={closePopup}>
+                        {popupMessage.content}
+                        <div>(click to close)</div>
                     </div>
-                )}
-                {errorMessage.visible && (
-                    <div className="overlay" onClick={() => setErrorMessage({ visible: false, content: '' })}>
-                        <div className="popup-message error" onClick={closePopup}>
-                            {errorMessage.content}
-                            <div>(click to close)</div>
-                        </div>
+                </div>
+            )}
+            {errorMessage.visible && (
+                <div className="overlay" onClick={() => setErrorMessage({ visible: false, content: '' })}>
+                    <div className="popup-message error" onClick={closePopup}>
+                        {errorMessage.content}
+                        <div>(click to close)</div>
                     </div>
-                )}
+                </div>
+            )}
         </div>
     );
 };
