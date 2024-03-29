@@ -40,8 +40,36 @@ def buy_stock():
             quantity=quantity
         )
         db.session.add(stock)
+
+        portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
+        if not portfolio:
+            portfolio = Portfolio(
+                user_id=current_user.id,
+                name=f'{user.first_name}\'s Portfolio'
+            )
+            db.session.add(portfolio)
+
+        portfolio_stock = PortfolioStock.query.filter_by(portfolio_id=portfolio.id, stock_id=stock.id).first()
+        if not portfolio_stock:
+            portfolio_stock = PortfolioStock(
+                portfolio_id=portfolio.id,
+                stock_id=stock.id,
+                stock_symbol=stock.symbol,
+                shares=stock.quantity,
+                total_investment=(quantity * stock.current_price),
+                average_cost=stock.current_price,
+                total_return=0,
+                equity=0
+            )
+            db.session.add(portfolio_stock)
     else:
+        portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
+        portfolio_stock = PortfolioStock.query.filter_by(portfolio_id=portfolio.id, stock_id=stock.id).first()
         stock.quantity += quantity
+        portfolio_stock.shares += quantity
+        total_cost = stock.current_price * quantity
+        portfolio_stock.total_investment = round((portfolio_stock.total_investment + total_cost), 2)
+        portfolio_stock.average_cost = round((portfolio_stock.total_investment / portfolio_stock.shares), 2)
     total_cost = stock.current_price * quantity
     if user.cash < total_cost:
         return jsonify({'error': 'Error: Insufficient funds'}), 400
@@ -58,6 +86,8 @@ def sell_stock():
     symbol = data['symbol']
     quantity = data['quantity']
     stock = Stock.query.filter_by(symbol=symbol, user_id=current_user.id).first()
+    portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
+    portfolio_stock = PortfolioStock.query.filter_by(portfolio_id=portfolio.id, stock_id=stock.id).first()
     user = User.query.get(current_user.id)
     if stock.quantity < quantity:
         return jsonify({'error': 'Error: Not enough shares to sell'}), 400
@@ -65,6 +95,17 @@ def sell_stock():
     total_revenue = stock.current_price * quantity
     user.cash += total_revenue
     stock.quantity -= quantity
+    if stock.quantity == 0:
+        db.session.delete(stock)
+    portfolio_stock.shares -= quantity
+    if portfolio_stock.shares == 0:
+        db.session.delete(portfolio_stock)
+        print(portfolio.portfolio_table)
+        if len(portfolio.portfolio_table) == 0:
+            db.session.delete(portfolio)
+    else:
+        portfolio_stock.total_investment = round((portfolio_stock.total_investment - total_revenue), 2)
+        portfolio_stock.average_cost = round((portfolio_stock.total_investment / portfolio_stock.shares), 2)
     db.session.commit()
 
     return jsonify({'message': 'Stock sold successfully'}), 200
