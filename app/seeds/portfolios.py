@@ -3,13 +3,7 @@ from sqlalchemy.sql import text
 
 
 def seed_portfolios():
-    demo1 = Portfolio(user_id=1, name='Demo\'s Portfolio')
-    marnie1 = Portfolio(user_id=2, name='Marnie\'s Portfolio')
-    bobbie1 = Portfolio(user_id=3, name='Bobbie\'s Portfolio')
 
-    db.session.add(demo1)
-    db.session.add(marnie1)
-    db.session.add(bobbie1)
     db.session.commit()
 
 

@@ -35,13 +35,16 @@ function Navigation() {
 
   const logout = () => {
     dispatch(thunkLogout());
+    setShowDropdown(false);
     navigate('/');
   };
-
+  const profile = () => {
+    navigate('profile')
+  }
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
-  const loggedInLinks = (
+  const loggedInLinks = user && (
     <ul className="nav-links-authorized">
       <li>
         <NavLink to="/investing" className="Investing">INVESTING</NavLink>
@@ -67,7 +70,7 @@ function Navigation() {
           <div className="hamburger-menu"></div></button>
         {showDropdown && (
           <div className="account-dropdown show-dropdown">
-            {/* Dropdown menu items here */}
+            <button onClick={profile} className="profile">{user.first_name} {user.last_name}</button>
             <button onClick={logout} className="logout">LOG OUT</button>
           </div>
         )}
