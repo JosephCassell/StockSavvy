@@ -3,8 +3,12 @@ from sqlalchemy.sql import text
 
 
 def seed_portfolio_stocks():
-#     demo1 = PortfolioStock(portfolio_id=1, stock_id=1, shares=1, average_cost=14.90, total_return=0, equity=0)
-#     demo2 = PortfolioStock(portfolio_id=1, stock_id=2, shares=1, average_cost=171.20, total_return=0, equity=0)
+     demo1 = PortfolioStock(portfolio_id=1, stock_id=1, shares=10, average_cost=90)
+     demo2 = PortfolioStock(portfolio_id=1, stock_id=2, shares=20, average_cost=100)
+
+     db.session.add(demo1)
+     db.session.add(demo2)
+     db.session.commit()
 #     demo3 = PortfolioStock(portfolio_id=1, stock_id=3, shares=1, average_cost=168.16, total_return=0, equity=0)
 #     demo4 = PortfolioStock(portfolio_id=1, stock_id=4, shares=1, average_cost=610.76, total_return=0, equity=0)
 #     demo5 = PortfolioStock(portfolio_id=1, stock_id=5, shares=1, average_cost=494.80, total_return=0, equity=0)
@@ -33,9 +37,6 @@ def seed_portfolio_stocks():
 #     bobbie8 = PortfolioStock(portfolio_id=3, stock_id=28, shares=1, average_cost=5.01, total_return=0, equity=0)
 #     bobbie9 = PortfolioStock(portfolio_id=3, stock_id=29, shares=1, average_cost=109.52, total_return=0, equity=0)
 #     bobbie10 = PortfolioStock(portfolio_id=3, stock_id=30, shares=1, average_cost=52.51, total_return=0, equity=0)
-
-#     db.session.add(demo1)
-#     db.session.add(demo2)
 #     db.session.add(demo3)
 #     db.session.add(demo4)
 #     db.session.add(demo5)
@@ -64,7 +65,6 @@ def seed_portfolio_stocks():
 #     db.session.add(bobbie8)
 #     db.session.add(bobbie9)
 #     db.session.add(bobbie10)
-    db.session.commit()
 
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
