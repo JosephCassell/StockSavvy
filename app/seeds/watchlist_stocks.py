@@ -3,11 +3,6 @@ from sqlalchemy.sql import text
 
 
 def seed_watchlist_stocks():
-     demo1 = WatchlistStock(watchlist_id=1, stock_id=1)
-     demo2 = WatchlistStock(watchlist_id=1, stock_id=2)
-     
-     db.session.add(demo1)
-     db.session.add(demo2)
      db.session.commit()
 #     demo3 = WatchlistStock(watchlist_id=1, stock_id=3)
 #     demo4 = WatchlistStock(watchlist_id=1, stock_id=4)
