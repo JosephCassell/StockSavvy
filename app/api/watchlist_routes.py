@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.forms import WatchlistForm
 from app.models import User, Watchlist, WatchlistStock, Stock, db
-
+from .stock_details import get_stock_details
 watchlist_routes = Blueprint('watchlists', __name__)
 
 
@@ -101,9 +101,19 @@ def add_stock_to_watchlist(watchlist_id):
     if watchlist is None:
         return {'errors': {'message': 'Watchlist not found'}}, 404
 
+    stock_details_response = get_stock_details(stock_symbol)
+    if stock_details_response.status_code != 200:
+        return {'errors': {'message': 'Stock details not found'}}, 404
+
+    stock_details = stock_details_response.get_json()
     stock = Stock.query.filter_by(symbol=stock_symbol).first()
-    if stock is None:
-        return {'errors': {'message': 'Stock not found'}}, 404
+    if not stock:
+        stock = Stock(symbol=stock_symbol, name=stock_details['name'], current_price=stock_details['price'])
+        db.session.add(stock)
+
+    existing_entry = WatchlistStock.query.filter_by(watchlist_id=watchlist_id, stock_id=stock.id).first()
+    if existing_entry:
+        return {'errors': {'message': 'Stock already in watchlist'}}, 400
 
     watchlist_stock = WatchlistStock(
         watchlist_id=watchlist_id,
@@ -112,6 +122,8 @@ def add_stock_to_watchlist(watchlist_id):
     db.session.add(watchlist_stock)
     db.session.commit()
     return jsonify(watchlist_stock.to_dict()), 201
+
+
 
 @watchlist_routes.route('/<int:watchlist_id>/stocks/<int:stock_id>', methods=['DELETE'])
 @login_required

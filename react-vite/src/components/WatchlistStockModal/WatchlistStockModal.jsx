@@ -1,13 +1,15 @@
 import './WatchlistStockModal.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { addStockToWatchlist } from '../../redux/watchlistActions';
 
 const WatchlistStockModal = ({ isOpen, onClose, watchlistId }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [errorMessage, setErrorMessage] = useState({ visible: false, content: '' });
   const dispatch = useDispatch();
-
+  const modalRef = useRef(); 
+  
   useEffect(() => {
     const handleSearch = async () => {
       if (searchQuery.length > 1) {
@@ -31,17 +33,36 @@ const WatchlistStockModal = ({ isOpen, onClose, watchlistId }) => {
     handleSearch();
   }, [searchQuery]);
   
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setErrorMessage({ visible: false, content: '' });
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
   const handleAddStock = (symbol) => {
-    dispatch(addStockToWatchlist(watchlistId, symbol));
-    onClose();
+    dispatch(addStockToWatchlist(watchlistId, symbol))
+        .then(() => {
+            onClose();
+        })
+        .catch((errors) => {
+            if (errors.errors.message === 'Stock already in watchlist') {
+                setErrorMessage({ visible: true, content: 'Error: Stock already in watchlist' });
+            }
+        });
   };
+
 
   if (!isOpen) {
     return null;
   }
 
   return (
-    <div className="modal">
+    <div className="modal" ref={modalRef}>
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
         <h2>Add Stock to Watchlist</h2>
@@ -59,6 +80,14 @@ const WatchlistStockModal = ({ isOpen, onClose, watchlistId }) => {
               </option>
             ))}
           </select>
+        )}
+        {errorMessage.visible && (
+            <div className="overlay" onClick={() => setErrorMessage({ visible: false, content: '' })}>
+                <div className="popup-message error" onClick={() => setErrorMessage({ visible: false, content: '' })}>
+                    {errorMessage.content}
+                    <div>(click to close)</div>
+                </div>
+            </div>
         )}
       </div>
     </div>

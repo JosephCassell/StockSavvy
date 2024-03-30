@@ -1,4 +1,9 @@
-import { LOAD_WATCHLISTS, ADD_WATCHLIST, ADD_STOCK_TO_WATCHLIST, REMOVE_STOCK_FROM_WATCHLIST } from "./watchlistActions";
+import { 
+    LOAD_WATCHLISTS, 
+    ADD_WATCHLIST,
+    DELETE_WATCHLIST, 
+    ADD_STOCK_TO_WATCHLIST, 
+    REMOVE_STOCK_FROM_WATCHLIST } from "./watchlistActions";
 
 const initialState = { watchlists: [] }
 
@@ -8,6 +13,8 @@ const watchlistReducer = (state = initialState, action) => {
             return { ...state, watchlists: action.watchlists };
         case ADD_WATCHLIST:
             return { ...state, watchlists: [...state.watchlists, action.watchlist] };
+        case DELETE_WATCHLIST:
+                return {...state,watchlists: state.watchlists.filter(watchlist => watchlist.id !== action.watchlistId)};
         case ADD_STOCK_TO_WATCHLIST:
             return {
                 ...state,

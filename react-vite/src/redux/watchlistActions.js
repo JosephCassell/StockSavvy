@@ -2,6 +2,7 @@ export const LOAD_WATCHLISTS = 'watchlist/LOAD_WATCHLISTS';
 export const ADD_WATCHLIST = 'watchlist/ADD_WATCHLIST';
 export const ADD_STOCK_TO_WATCHLIST = 'watchlist/ADD_STOCK_TO_WATCHLIST';
 export const REMOVE_STOCK_FROM_WATCHLIST = 'watchlist/REMOVE_STOCK_FROM_WATCHLIST';
+export const DELETE_WATCHLIST = 'watchlist/DELETE_WATCHLIST';
 
 const addWatchlist = (watchlist) => ({
   type: ADD_WATCHLIST,
@@ -25,7 +26,7 @@ export const fetchWatchlists = userId => async dispatch => {
     }
 };
 
-//Create a watchlist
+// Create a watchlist
 export const createWatchlist = (name) => async (dispatch) => {
     const response = await fetch('/api/watchlists/new', {
       method: 'POST',
@@ -50,6 +51,24 @@ const addStockToWatchlistAction = (watchlistId, stock) => ({
     watchlistId,
     stock,
 });
+// Delete a watchlist 
+const deleteWatchlistAction = (watchlistId) => ({
+    type: DELETE_WATCHLIST,
+    watchlistId,
+});
+export const deleteWatchlist = (watchlistId) => async (dispatch) => {
+    const response = await fetch(`/api/watchlists/${watchlistId}`, {
+        method: 'DELETE',
+    });
+
+    if (response.ok) {
+        dispatch(deleteWatchlistAction(watchlistId));
+        return { message: 'Watchlist deleted successfully' };
+    } else {
+        const errors = await response.json();
+        return Promise.reject(errors);
+    }
+};
 
 // Add a stock to a watchlist
 export const addStockToWatchlist = (watchlistId, symbol) => async (dispatch) => {
@@ -77,7 +96,7 @@ const removeStockFromWatchlistAction = (watchlistId, stockId) => ({
     stockId,
 });
 
-//Sell a stock from a watchlist
+// Sell a stock from a watchlist
 export const removeStockFromWatchlist = (watchlistId, stockId) => async (dispatch) => {
     const response = await fetch(`/api/watchlists/${watchlistId}/stocks/${stockId}`, {
         method: 'DELETE',

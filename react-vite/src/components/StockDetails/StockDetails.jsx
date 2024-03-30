@@ -295,9 +295,16 @@ const StockDetails = () => {
                     ))}
                 </div>
                 <div className="tabs-line"></div>
+                <div className="stock-info-container">
+                    <p><strong>Market Cap: </strong> ${stockDetails.marketCap}</p>
+                    <p><strong>CEO:</strong> {stockDetails.ceo}</p>
+                    <p><strong>Sector:</strong> {stockDetails.sector}</p>
+                    <p><strong>Address:</strong> {stockDetails.address}</p>
+                    <p><strong>Exchange:</strong> {stockDetails.exchange}</p>
+                    <p><strong>Description:</strong> {stockDetails.description}</p>
+                 </div>
                 <div className="market-movers-container">
                     <p className="market-movers-header">MARKET TOP / BOTTOM MOVERS</p>
-                    {/* List of items representing movers */}
                 </div>
             </div>
             <div className="stock-trade-container">

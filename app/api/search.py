@@ -17,6 +17,7 @@ def search_stocks():
 def search_stocks_from_api(query):
     url = f'https://financialmodelingprep.com/api/v3/search?query={query}&limit=10&exchange=NASDAQ&apikey={api_key}'
     response = requests.get(url)
+    print(response.text)
     if response.status_code == 200:
         return response.json()
     return []    

@@ -161,12 +161,18 @@ export const checkOwnership = (symbol) => async (dispatch) => {
 
 // Search for a stock
 export const searchStocks = (query) => async (dispatch) => {
+  dispatch({ type: SEARCH_STOCKS_REQUEST });
   try {
-      dispatch({ type: SEARCH_STOCKS_REQUEST });
-      const response = await fetch(`/search_stocks?query=${query}`);
-      const data = await response.json();
-      dispatch({ type: SEARCH_STOCKS_SUCCESS, payload: data });
+    const response = await fetch(`/search/stocks?query=${query}`);
+    const data = await response.json();
+    const action = { type: SEARCH_STOCKS_SUCCESS, payload: data };
+    dispatch(action);
+    return action;  // Explicitly return the action object
   } catch (error) {
-      dispatch({ type: SEARCH_STOCKS_FAILURE, payload: error.message });
+    console.error('Error searching stocks:', error);
+    const action = { type: SEARCH_STOCKS_FAILURE, payload: error.message };
+    dispatch(action);
+    return action;  // Explicitly return the action object
   }
 };
+

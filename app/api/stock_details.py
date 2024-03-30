@@ -4,17 +4,18 @@ import requests
 
 stock_details = Blueprint('stockDetails', __name__)
 api_key = '5749959e9f6a67949de1a7e4457b47fb'
-
 @stock_details.route('/stocks/<symbol>', methods=['GET'])
 def get_stock_details(symbol):
     url = f'https://financialmodelingprep.com/api/v3/profile/{symbol}?apikey={api_key}'
     response = requests.get(url)
-   
+    if response.status_code != 200:
+        return jsonify({'error': 'Failed to fetch data'}), response.status_code
+    
     data = response.json()
     if not data:
         return jsonify({'error': 'No data found for the given symbol'}), 404
     stock_data = data[0]
-
+    
     stock = Stock.query.filter_by(symbol=symbol).first()
     if stock:
         stock.current_price = stock_data['price']
@@ -23,8 +24,20 @@ def get_stock_details(symbol):
         stock = Stock(symbol=symbol, current_price=stock_data['price'], name=stock_data['companyName'])
         db.session.add(stock)
     db.session.commit()
+    
+    company_info = {
+        'name': stock_data['companyName'],
+        'price': stock_data['price'],
+        'marketCap': stock_data.get('mktCap', 'N/A'), 
+        'ceo': stock_data.get('ceo', 'N/A'),
+        'description': stock_data.get('description', 'N/A'),
+        'sector': stock_data.get('sector', 'N/A'),
+        'address': stock_data.get('address', 'N/A'),
+        'exchange': stock_data.get('exchange', 'N/A'),
+    }
 
-    return jsonify({'name': stock_data['companyName'], 'price': stock_data['price']})
+    return jsonify(company_info)
+
 # Get routes for 3M-All
 @stock_details.route('/<symbol>/history/all', methods=['GET'])
 def get_stock_history(symbol):

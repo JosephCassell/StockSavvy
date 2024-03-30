@@ -15,6 +15,7 @@ from .api.profile import profile
 from .api.transfer import transfer
 from .api.update_stocks import update_stocks
 from .api.search import search
+from .api.portfolio_stock_routes import portfolio_stock_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -37,6 +38,7 @@ app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(portfolio_routes, url_prefix='/api/portfolios')
+app.register_blueprint(portfolio_stock_routes, url_prefix = '/api/portfolio_stocks')
 app.register_blueprint(watchlist_routes, url_prefix='/api/watchlists')
 app.register_blueprint(stock_details, url_prefix='/stockDetails')
 app.register_blueprint(profile, url_prefix='/profile')
