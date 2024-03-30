@@ -41,15 +41,6 @@ def upgrade():
     if environment == "production":
             op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
 
-    op.create_table('portfolios',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=30), nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    if environment == "production":
-            op.execute(f"ALTER TABLE portfolios SET SCHEMA {SCHEMA};")
 
     op.create_table('stocks',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -65,6 +56,16 @@ def upgrade():
     )
     if environment == "production":
             op.execute(f"ALTER TABLE stocks SET SCHEMA {SCHEMA};")
+
+    op.create_table('portfolios',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=30), nullable=False),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    if environment == "production":
+            op.execute(f"ALTER TABLE portfolios SET SCHEMA {SCHEMA};")
 
     op.create_table('watchlists',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -111,7 +112,7 @@ def downgrade():
     op.drop_table('watchlist_stocks')
     op.drop_table('portfolio_stocks')
     op.drop_table('watchlists')
-    op.drop_table('stocks')
     op.drop_table('portfolios')
+    op.drop_table('stocks')
     op.drop_table('users')
     # ### end Alembic commands ###
