@@ -14,28 +14,41 @@ function LoginFormPage() {
   const [errors, setErrors] = useState({});
 
   if (sessionUser) return <Navigate to="/" replace={true} />;
-  
-  const demoUser = () => {
-    setCredential('Demo')
-    setPassword('password')
-  }
+
+  const loginDemoUser = () => {
+    setCredential('Demo');
+    setPassword('password1234');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const serverResponse = await dispatch(
-      thunkLogin({
-        credential,
-        password,
-      })
-    );
-
+  
+    let newErrors = {};
+  
+    if (!credential.trim()) {
+      newErrors.credential = "Username or email is required.";
+    }
+  
+    if (!password) {
+      newErrors.password = "Password is required.";
+    } else if (password.length < 10) {
+      newErrors.password = "Password must be at least 10 characters long.";
+    }
+  
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+  
+    const serverResponse = await dispatch(thunkLogin({ credential, password }));
+  
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
       navigate("/");
     }
   };
+  
 
   return (
     <div className="login-container">
@@ -48,10 +61,6 @@ function LoginFormPage() {
 
         <h1 className="title">LOG IN TO STOCK SAVVY</h1>
 
-        <div className="errors-container">
-         {errors.credential || errors.password && <p>{errors.credential}</p>}
-        </div>
-
         <form className='form-container' onSubmit={handleSubmit}>
 
           <label className="form-label">
@@ -60,17 +69,17 @@ function LoginFormPage() {
               placeholder="EMAIL OR USERNAME"
               value={credential}
               onChange={(e) => setCredential(e.target.value)}
-              required
               />
+              {errors.credential && <p className="error-message">{errors.credential}</p>}
           </label>
           <label className="form-label">
             <input
-              type="text"
+              type="password"
               placeholder="PASSWORD (MIN. 10 CHARACTERS)"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              onChange={(e) => setPassword(e.target.value)} 
               />
+              {errors.password && <p className="error-message">{errors.password}</p>}
           </label>
 
           <div className="checkbox-container">
@@ -84,7 +93,7 @@ function LoginFormPage() {
           </div>
 
           <div className="login-button">
-            <button className='submit-button' type='submit' onClick={demoUser}>DEMO USER</button>
+            <button className='submit-button' type='button' onClick={loginDemoUser}>DEMO USER</button>
             <button className='submit-button' type="submit">LOG IN</button>
           </div>
         </form>
@@ -99,4 +108,3 @@ function LoginFormPage() {
 }
 
 export default LoginFormPage;
-

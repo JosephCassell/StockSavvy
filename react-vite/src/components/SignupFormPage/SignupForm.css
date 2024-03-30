@@ -93,8 +93,8 @@
 .email-container input {
     padding-left: 12px;
     border-radius: 6px;
-    height: 38px;
-    width: 500px;
+    height: 34px;
+    width: 490px;
 }
 
 .username-container {
@@ -172,3 +172,9 @@
     border-radius: 10px;
     text-align: center;
 }
+.error-message {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 5px;
+  }
+  

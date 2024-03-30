@@ -43,7 +43,6 @@
 }
 
 .form-label {
-    /* border-radius: 40px; */
     overflow: hidden;
 }
 
@@ -104,9 +103,9 @@
     cursor: pointer;
 }
 
-.errors-container {
-    margin-bottom: 10px;
-    font-size: 12px;
+.error-message {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 5px;
 }
-
-
+  

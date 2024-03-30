@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
@@ -20,33 +20,55 @@ function SignupFormPage() {
   const [errors, setErrors] = useState({});
   
   if (sessionUser) return <Navigate to="/" replace={true} />;
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (password !== confirmPassword) {
-      return setErrors({
-        confirmPassword:
-          "Password did not match, please try again.",
-      });
+    setErrors({});
+  
+    let newErrors = {};
+  
+    if (!first_name.trim()) {
+      newErrors.first_name = "First name is required.";
     }
-
-    const serverResponse = await dispatch(
-      thunkSignup({
-        first_name: first_name,
-        last_name: last_name,
-        email: email,
-        username: username,
-        password: password
-      })
-    );
-
+    if (!last_name.trim()) {
+      newErrors.last_name = "Last name is required.";
+    }
+    if (!email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+    if (!username.trim()) {
+      newErrors.username = "Username is required.";
+    }
+    if (password.length < 10) {
+      newErrors.password = "Password must be at least 10 characters long.";
+    }
+    if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match.";
+    }
+  
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+  
+    const serverResponse = await dispatch(thunkSignup({
+      first_name,
+      last_name,
+      email,
+      username,
+      password
+    }));
+  
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
       navigate("/");
     }
   };
+  
+  
 
   return (
     <div className="signup-container">
@@ -82,8 +104,8 @@ function SignupFormPage() {
                   placeholder="FIRST NAME"
                   value={first_name}
                   onChange={(e) => setFirstName(e.target.value)}
-                  required
                   />
+                  {errors.first_name && <p className="error-message">{errors.first_name}</p>}
               </label>
               <label>
                 <input
@@ -93,21 +115,22 @@ function SignupFormPage() {
                   placeholder="LAST NAME"
                   value={last_name}
                   onChange={(e) => setLastName(e.target.value)}
-                  required
                   />
+                  {errors.last_name && <p className="error-message">{errors.last_name}</p>}
               </label>
             </div>
 
             <div className='email-container'>
               <label>
                 <input
-                  type="email"
+                  type="text"
                   placeholder='EMAIL'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
                   />
+                  {errors.email && <p className="error-message">{errors.email}</p>}
               </label>
+                {console.log('errors', errors)}
             </div>
 
             <div className='username-container'>
@@ -117,8 +140,8 @@ function SignupFormPage() {
                   placeholder='USERNAME'
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  required
                   />
+                {errors.username && <p className="error-message">{errors.username}</p>}
               </label>
             </div>
 
@@ -129,8 +152,8 @@ function SignupFormPage() {
                   placeholder='PASSWORD (MIN. 10 CHARACTERS)'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  required
                   />
+                  {errors.password && <p className="error-message">{errors.password}</p>}
               </label>
             </div>
 
@@ -141,8 +164,8 @@ function SignupFormPage() {
                   placeholder='CONFIRM PASSWORD'
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
                   />
+                  {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
               </label>
             </div>
             <div className='bottom-text'>
