@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { thunkLogin } from "../../redux/session";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import logo from '../../../../Photos/Logo.png'
 import "./LoginForm.css";
 
@@ -100,5 +100,3 @@ function LoginFormPage() {
 
 export default LoginFormPage;
 
-{/* {errors.length > 0 && errors.map((message) => <p key={message}>{message}</p>)} */}
-{/* {errors.password && <p className="login-errors">{errors.password}</p>}  */}

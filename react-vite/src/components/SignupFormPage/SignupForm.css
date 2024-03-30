@@ -1,9 +1,10 @@
-.signup-page-container{
+.signup-container{
     display: flex;
+    height: 800px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.signup-page-left-side-container{
+.signup-left-container{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -16,6 +17,14 @@
     color: white;
 }
 
+.signup-right-container{
+    display: flex;
+    flex-direction: column;
+    padding-top: 25px;
+    padding-left: 200px;
+    width: 46%;
+}
+
 .signup-logo {
     width: 120px;  
     margin-top: 10px;
@@ -25,7 +34,7 @@
     margin-left: 5px;
 }
 
-.signup-moon {
+.moon {
     position: absolute;
     width: 350px;
     height: 350px;
@@ -60,13 +69,7 @@
     margin-left: 25px;
 }
 
-.signup-page-right-side-container{
-    display: flex;
-    flex-direction: column;
-    padding-top: 25px;
-    padding-left: 200px;
-    width: 46%;
-}
+
 
 .signup-right-title {
     font-size: 12px;

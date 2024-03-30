@@ -16,16 +16,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "login",
-        element: <LoginFormPage />,
+        element: <LoginFormPage/>,
       },
       {
         path: "signup",
-        element: <SignupFormPage hideNavbar={true}/>,
+        element: <SignupFormPage/>,
       },
-      // {
-      //   path: "stockDetails/:symbol",
-      //   element: <StockDetails />,
-      // },
+      {
+        path: "stockDetails/:symbol",
+        element: <StockDetails />,
+      },
       {
         path: "profile",
         element: <Profile />,
