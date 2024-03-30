@@ -150,7 +150,7 @@ function SignupFormPage() {
               <p onClick={() => navigate('/login')}>LOG IN TO COMPLETE YOUR APPLICATION</p>
             </div>
             <div className='button-container'>
-              <button className='signup-button'type="submit" onClick={() => navigate('/login')}>SIGN UP</button>
+              <button className='signup-button'type="submit">SIGN UP</button>
           </div>
           </form>
 
