@@ -27,7 +27,7 @@ function SignupFormPage() {
     if (password !== confirmPassword) {
       return setErrors({
         confirmPassword:
-          "Confirm Password field must be the same as the Password field",
+          "Password did not match, please try again.",
       });
     }
 
@@ -101,7 +101,7 @@ function SignupFormPage() {
             <div className='email-container'>
               <label>
                 <input
-                  type="text"
+                  type="email"
                   placeholder='EMAIL'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -149,24 +149,23 @@ function SignupFormPage() {
               <div>ALREADY HAVE AN ACCOUNT?</div>
               <p onClick={() => navigate('/login')}>LOG IN TO COMPLETE YOUR APPLICATION</p>
             </div>
+            <div className='button-container'>
+              <button className='signup-button'type="submit" onClick={() => navigate('/login')}>SIGN UP</button>
+          </div>
           </form>
 
           <div className='signup-footer'>
             <div onClick={() => alert('By clicking the link you have agreed to Zelle the Party Pandas 10 dollars EACH!')}>BY CONTINUING, YOU AGREE TO THE STOCK SAVVY USER ACCOUNT</div>
             <div onClick={() => alert('By clicking the link you have agreed to Zelle the Party Pandas 10 dollars EACH!')}>AGREEMENT AND PRIVACY POLICY.</div>
           </div>
-          <div className='button-container'>
-            <button className='signup-button'type="submit">Sign Up</button>
-          </div>
-
         </div>
-      </div>
-
       {errors.server && <p>{errors.server}</p>}
       {errors.email && <p>{errors.email}</p>}
       {errors.username && <p>{errors.username}</p>}
       {errors.password && <p>{errors.password}</p>}
       {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+      </div>
+
     </div>
   );
 }
