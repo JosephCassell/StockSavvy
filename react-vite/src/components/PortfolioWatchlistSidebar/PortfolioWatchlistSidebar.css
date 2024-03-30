@@ -1,0 +1,84 @@
+.collapsible-containers {
+    width: 300px;
+    border: 1px solid #fbd1a2;
+    border-radius: 5px;
+    padding: 10px;
+    margin-left: 20px;
+    flex-shrink: 0;
+}
+
+.collapsible-toggle {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    border: 1px solid #fbd1a2;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.collapsible-content {
+    display: none;
+    padding: 10px;
+    background-color: transparent;
+    border-radius: 5px;
+}
+
+.collapsible-content.show {
+    display: block;
+}
+
+.watchlist-container {
+    display: flex;
+    align-items: center;
+}
+
+.add-watchlist-btn {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-watchlist-btn:hover {
+    background-color: grey;
+}
+
+.portfolio {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.portfolio-stock {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+}
+
+.watchlist {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.watchlist-stock {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+}
+
+.stock-symbol,
+.stock-price {
+    width: 45px;
+}
+
+.stock-price {
+    display: flex;
+    justify-content: end;
+}

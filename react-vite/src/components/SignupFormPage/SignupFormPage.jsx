@@ -11,6 +11,8 @@ function SignupFormPage({hideNavbar}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -41,9 +43,11 @@ function SignupFormPage({hideNavbar}) {
 
     const serverResponse = await dispatch(
       thunkSignup({
-        email,
-        username,
-        password,
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+        username: username,
+        password: password
       })
     );
 
