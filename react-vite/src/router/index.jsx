@@ -22,12 +22,12 @@ export const router = createBrowserRouter([
         path: "signup",
         element: <SignupFormPage hideNavbar={true}/>,
       },
+      // {
+      //   path: "stockDetails/:symbol",
+      //   element: <StockDetails />,
+      // },
       {
-        path: "/stockDetails/:symbol",
-        element: <StockDetails />,
-      },
-      {
-        path: "/profile",
+        path: "profile",
         element: <Profile />,
       },
     ],

@@ -11,7 +11,7 @@ import {
     sellStock,
     checkOwnership
 } from '../../redux/stockActions';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import './StockDetails.css';
 
 const StockDetails = () => {
@@ -97,8 +97,10 @@ const StockDetails = () => {
     const filteredData = useMemo(() => {
         switch (selectedRange) {
             case '1d':
+                console.log('filtereddata1d', filteredData1D)
                 return filteredData1D;
             case '1w':
+                console.log('filtereddata1w', filteredData1W)
                 return filteredData1W;
             case '1m':
                 return filteredData1M;
@@ -295,9 +297,16 @@ const StockDetails = () => {
                     ))}
                 </div>
                 <div className="tabs-line"></div>
+                <div className="stock-info-container">
+                    <p><strong>Market Cap: </strong> ${stockDetails.marketCap}</p>
+                    <p><strong>CEO:</strong> {stockDetails.ceo}</p>
+                    <p><strong>Sector:</strong> {stockDetails.sector}</p>
+                    <p><strong>Address:</strong> {stockDetails.address}</p>
+                    <p><strong>Exchange:</strong> {stockDetails.exchange}</p>
+                    <p><strong>Description:</strong> {stockDetails.description}</p>
+                 </div>
                 <div className="market-movers-container">
                     <p className="market-movers-header">MARKET TOP / BOTTOM MOVERS</p>
-                    {/* List of items representing movers */}
                 </div>
             </div>
             <div className="stock-trade-container">

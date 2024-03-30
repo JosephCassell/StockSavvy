@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
 
     stocks = db.relationship('Stock', back_populates='user')
     watchlists = db.relationship('Watchlist', back_populates='user')
-    portfolio = db.relationship('Portfolio', backref='user', uselist=False, lazy=True)
+    portfolios = db.relationship('Portfolio', back_populates='user', uselist=True, lazy=True)
 
     @property
     def password(self):
@@ -40,3 +40,4 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email
         }
+
