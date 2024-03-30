@@ -11,7 +11,7 @@ import {
     sellStock,
     checkOwnership
 } from '../../redux/stockActions';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import './StockDetails.css';
 
 const StockDetails = () => {

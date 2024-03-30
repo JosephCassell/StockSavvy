@@ -22,10 +22,10 @@ export const router = createBrowserRouter([
         path: "signup",
         element: <SignupFormPage />,
       },
-      {
-        path: "stockDetails/:symbol",
-        element: <StockDetails />,
-      },
+      // {
+      //   path: "stockDetails/:symbol",
+      //   element: <StockDetails />,
+      // },
       {
         path: "profile",
         element: <Profile />,

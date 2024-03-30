@@ -1,0 +1,112 @@
+.login-container {
+    display: flex;
+    height: 800px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.left-container {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    background-image: url('../../../../Photos/orange_background_photo.png');
+    background-position-x: -110px;
+    background-size: cover;
+}
+
+.right-container {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    padding-left: 70px;
+    padding-right: 70px;
+    color: #f79256;
+}
+
+.stock-savvy {
+    width: 150px;
+    height: 50px;
+    padding-top: 10px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: lighter;
+    text-align: center;
+    color: white;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    border-radius: 40px;
+    overflow: hidden;
+}
+
+.form-container input {
+    width: 590px;
+    height: 20px;
+}
+
+.login-button {
+    display: flex;
+    gap: 10px;
+}
+
+.login-button button {
+    width: 150px;
+    cursor: pointer;
+}
+
+.form-container ::placeholder {
+    padding-left: 5px;
+    color: #f79256;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 14px;
+}
+
+.checkbox-container input {
+    width: 15px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.forgot-cred {
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 818px;
+    padding-bottom: 85px;
+    font-size: 12px;
+}
+
+.footer-container div {
+    margin-right: 5px;
+}
+
+.footer-container span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.errors-container {
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+
