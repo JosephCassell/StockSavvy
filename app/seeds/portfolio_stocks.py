@@ -3,11 +3,6 @@ from sqlalchemy.sql import text
 
 
 def seed_portfolio_stocks():
-     demo1 = PortfolioStock(portfolio_id=1, stock_id=1, shares=10, average_cost=90)
-     demo2 = PortfolioStock(portfolio_id=1, stock_id=2, shares=20, average_cost=100)
-
-     db.session.add(demo1)
-     db.session.add(demo2)
      db.session.commit()
 #     demo3 = PortfolioStock(portfolio_id=1, stock_id=3, shares=1, average_cost=168.16, total_return=0, equity=0)
 #     demo4 = PortfolioStock(portfolio_id=1, stock_id=4, shares=1, average_cost=610.76, total_return=0, equity=0)

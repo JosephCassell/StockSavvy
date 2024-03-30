@@ -32,7 +32,7 @@ const addPortfolio = (portfolio) => ({
     type: CREATE_PORTFOLIO,
     portfolio,
 });
-//Create portfolios
+// Create portfolios
 export const createPortfolio = (name) => async (dispatch) => {
     try {
         const response = await fetch('/api/portfolios/new', {

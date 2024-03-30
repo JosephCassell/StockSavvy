@@ -51,7 +51,7 @@ def create_portfolio_stock(portfolio_id, symbol, quantity):
     return jsonify(portfolio_stock.to_dict()), 200
 
 
-
+# Remove a stock form a portfolio
 @portfolio_stock_routes.route('/<int:portfolio_id>/<int:stock_id>', methods=['DELETE'])
 @login_required
 def remove_portfolio_stock(portfolio_id, stock_id):

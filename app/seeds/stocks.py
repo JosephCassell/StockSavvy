@@ -5,15 +5,6 @@ from sqlalchemy.sql import text
 
 
 def seed_stocks():
-    apple = Stock(
-        id = 1, user_id = 1, name = 'Apple inc.', symbol = 'AAPL', current_price = 90, quantity = 10
-    )
-    google = Stock(
-        id = 2, user_id = 1, name = 'Google inc.', symbol = 'GOOG', current_price = 100, quantity = 20
-    )
-
-    db.session.add(apple)
-    db.session.add(google)
     db.session.commit()
 
 
