@@ -3,7 +3,10 @@ from sqlalchemy.sql import text
 
 
 def seed_portfolios():
-
+    Primary = Portfolio (
+        user_id = 1, name = 'Primary'
+    )
+    db.session.add(Primary)
     db.session.commit()
 
 
