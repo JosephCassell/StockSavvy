@@ -7,7 +7,7 @@
 .left-container {
     display: flex;
     flex-direction: column;
-    width: 65%;
+    width: 60%;
     background-image: url('../../../../Photos/orange_background_photo.png');
     background-position-x: -110px;
     background-size: cover;
@@ -43,7 +43,7 @@
 }
 
 .form-label {
-    border-radius: 40px;
+    /* border-radius: 40px; */
     overflow: hidden;
 }
 
