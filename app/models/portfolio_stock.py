@@ -5,10 +5,10 @@ class PortfolioStock(db.Model):
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
-
+        
     id = db.Column(db.Integer, primary_key=True)
-    portfolio_id = db.Column(db.Integer, db.ForeignKey('portfolios.id'), nullable=False)
-    stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'), nullable=False)
+    portfolio_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('portfolios.id')), nullable=False)
+    stock_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('stocks.id')), nullable=False)
     stock_symbol = db.Column(db.String(10))
     shares = db.Column(db.Float, nullable=False)
     total_investment = db.Column(db.Float, nullable=False, default=0)
