@@ -22,6 +22,9 @@ def buy_stock():
     symbol = data['symbol']
     quantity = int(data['quantity'])
     user = User.query.get(current_user.id)
+
+    total_cost = 0
+
     stock = Stock.query.filter_by(symbol=symbol, user_id=current_user.id).first()
 
     if not stock:
@@ -31,48 +34,26 @@ def buy_stock():
             return jsonify({'error': 'Failed to fetch stock data'}), 500
 
         stock_data = response.json()[0]
+        current_price = stock_data['price']
+        total_cost = current_price * quantity
         stock = Stock(
             user_id=current_user.id,
             name=stock_data['name'],
             symbol=symbol,
-            current_price=stock_data['price'],
+            current_price=current_price,
             company_info=stock_data.get('description', ''),
-            quantity=quantity
+            quantity=quantity,
+            total_investment=total_cost
         )
         db.session.add(stock)
-
-        portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
-        if not portfolio:
-            portfolio = Portfolio(
-                user_id=current_user.id,
-                name=f'{user.first_name}\'s Portfolio'
-            )
-            db.session.add(portfolio)
-
-        portfolio_stock = PortfolioStock.query.filter_by(portfolio_id=portfolio.id, stock_id=stock.id).first()
-        if not portfolio_stock:
-            portfolio_stock = PortfolioStock(
-                portfolio_id=portfolio.id,
-                stock_id=stock.id,
-                stock_symbol=stock.symbol,
-                shares=stock.quantity,
-                total_investment=(quantity * stock.current_price),
-                average_cost=stock.current_price,
-                total_return=0,
-                equity=0
-            )
-            db.session.add(portfolio_stock)
     else:
-        portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
-        portfolio_stock = PortfolioStock.query.filter_by(portfolio_id=portfolio.id, stock_id=stock.id).first()
-        stock.quantity += quantity
-        portfolio_stock.shares += quantity
         total_cost = stock.current_price * quantity
-        portfolio_stock.total_investment = round((portfolio_stock.total_investment + total_cost), 2)
-        portfolio_stock.average_cost = round((portfolio_stock.total_investment / portfolio_stock.shares), 2)
-    total_cost = stock.current_price * quantity
+        stock.quantity += quantity
+        stock.total_investment += total_cost
+
     if user.cash < total_cost:
         return jsonify({'error': 'Error: Insufficient funds'}), 400
+
     user.cash -= total_cost
     db.session.commit()
     updated_stocks = [stock.to_dict() for stock in user.stocks]
@@ -84,28 +65,29 @@ def buy_stock():
 def sell_stock():
     data = request.json
     symbol = data['symbol']
-    quantity = data['quantity']
+    quantity = int(data['quantity'])
     stock = Stock.query.filter_by(symbol=symbol, user_id=current_user.id).first()
-    portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
-    portfolio_stock = PortfolioStock.query.filter_by(portfolio_id=portfolio.id, stock_id=stock.id).first()
     user = User.query.get(current_user.id)
-    if stock.quantity < quantity:
+
+    if not stock or stock.quantity < quantity:
         return jsonify({'error': 'Error: Not enough shares to sell'}), 400
 
     total_revenue = stock.current_price * quantity
     user.cash += total_revenue
     stock.quantity -= quantity
+    
+    portfolio_stocks = PortfolioStock.query.filter_by(stock_id=stock.id).all()
+    for portfolio_stock in portfolio_stocks:
+        portfolio_stock.shares -= quantity
+        if portfolio_stock.shares <= 0:
+            db.session.delete(portfolio_stock)
+        else:
+            portfolio_stock.total_investment = round((portfolio_stock.total_investment - total_revenue), 2)
+            portfolio_stock.average_cost = round((portfolio_stock.total_investment / portfolio_stock.shares), 2)
+
     if stock.quantity == 0:
         db.session.delete(stock)
-    portfolio_stock.shares -= quantity
-    if portfolio_stock.shares == 0:
-        db.session.delete(portfolio_stock)
-        print(portfolio.portfolio_table)
-        if len(portfolio.portfolio_table) == 0:
-            db.session.delete(portfolio)
-    else:
-        portfolio_stock.total_investment = round((portfolio_stock.total_investment - total_revenue), 2)
-        portfolio_stock.average_cost = round((portfolio_stock.total_investment / portfolio_stock.shares), 2)
-    db.session.commit()
 
+    db.session.commit()
     return jsonify({'message': 'Stock sold successfully'}), 200
+

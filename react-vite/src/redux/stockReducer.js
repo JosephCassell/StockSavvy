@@ -20,7 +20,11 @@ import {
   STOCK_HISTORY_1M_FAIL,
 
   UPDATE_STOCKS,
-  SET_OWNERSHIP
+  SET_OWNERSHIP,
+
+  SEARCH_STOCKS_FAILURE,
+  SEARCH_STOCKS_REQUEST,
+  SEARCH_STOCKS_SUCCESS
 } from './stockActions';
 
 const initialState = {
@@ -32,7 +36,11 @@ const initialState = {
   historyAll: {},
   history1D: {},
   history1W: {},
-  history1M: {}
+  history1M: {},
+  loadingSearch: false,
+  searchResults: [],
+  errorSearch: null,
+  ownsStock: false, 
 };
 
 const stockReducer = (state = initialState, action) => {
@@ -41,8 +49,8 @@ const stockReducer = (state = initialState, action) => {
       return { ...state, loadingDetails: true, errorDetails: null };
     case STOCK_DETAILS_SUCCESS:
       return { ...state, loadingDetails: false, stock: action.payload };
-    case STOCK_DETAILS_FAIL:
-      return { ...state, loadingDetails: false, errorDetails: action.payload, stock: null };
+      case STOCK_DETAILS_FAIL:
+        return { ...state, loadingDetails: false, errorDetails: action.payload };      
 
     case STOCK_HISTORY_ALL_REQUEST:
       return { ...state, loadingHistory: true };
@@ -78,7 +86,15 @@ const stockReducer = (state = initialState, action) => {
       return { ...state, stock: action.payload };
     case SET_OWNERSHIP:
       return { ...state, ownsStock: action.payload };
-    default:
+    
+      case SEARCH_STOCKS_REQUEST:
+        return { ...state, loadingSearch: true };
+    case SEARCH_STOCKS_SUCCESS:
+        return { ...state, loadingSearch: false, searchResults: action.payload };
+    case SEARCH_STOCKS_FAILURE:
+        return { ...state, loadingSearch: false, errorSearch: action.payload };    
+    
+        default:
       return state;
   }
 };
