@@ -1,30 +1,37 @@
 .navbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   background-color: #23394d; 
   padding: 2px 20px;
-  border-bottom: 2px solid white; 
+  border-bottom: 2px solid white;
 }
+
 
 
 .logo {
   background: #1D4E89; 
   border-radius: 0 50px 50px 0; 
-  padding: 5px 20px; 
+  padding: 1px 10px; 
+  padding-top: 3px;
+  padding-bottom: 2px;
   box-shadow: 5px 0 5px -5px #000;
   z-index: 6;
   margin-left: -20px;
 }
 
 .logo img {
-  width: 110px;
-  object-fit: cover;
-  margin-right: 50px;
-  height: 30px;
+  width: 85px;
+  margin-right: 20px;
+  height: 35px;
+}
+.logo-image-only img {
+  width: 85px;
+  margin-right: 20px;
+  height: 35px;
 }
 
-
-.nav-links {
+.nav-links-unauthorized, .logo{
   list-style: none;
   display: flex;
   position: relative;
@@ -32,70 +39,81 @@
 
 .What {
   position: relative;
-  padding: 13px 30px;
+  padding: 15px 30px;
   margin-left: -65px; 
-  padding-top: 17px;
+  padding-top: 15px;
   border-radius: 0 50px 50px 0;
   padding-right: 18px;
   box-shadow: 5px 0 5px -5px #000;
   background:  #fbd1a2;
   z-index: 5;
 }
+.What:hover{
+  background-color:  #ab8f6f;
+}
 .Gold {
   position: relative;
-  padding: 13px 30px;
-  margin-left: -25px; 
+  padding: 15px 30px;
+  margin-left: -20px; 
   padding-right: 18px;
-  padding-top: 17px;
+  padding-top: 15px;
   border-radius: 0 50px 50px 0;
   box-shadow: 5px 0 5px -5px #000;
   background:  #7dcfb6;
   z-index: 4;
 }
+.Gold:hover{
+  background-color:  #619f8c;
+}
 .Learn {
   position: relative;
-  padding: 13px 30px;
+  padding: 15px 30px;
   padding-right: 18px;
-  margin-left: -25px; 
-  padding-top: 17px;
+  margin-left: -20px; 
+  padding-top: 15px;
   background: #00b2ca;
   box-shadow: 5px 0 5px -5px #000;
   border-radius: 0 50px 50px 0; 
   z-index: 3;
 }
+.Learn:hover{
+  background-color:  #028fa2;
+}
 .Snacks {
   position: relative;
-  padding: 13px 30px;
-  margin-left: -25px; 
+  padding: 15px 30px;
+  margin-left: -20px; 
   padding-right: 18px;
-  padding-top: 17px;
+  padding-top: 15px;
   box-shadow: 5px 0 5px -5px #000;
   border-radius: 0 50px 50px 0; 
   background:  #F79256;
   z-index: 2;
 }
+.Snacks:hover{
+  background-color:  #af673d;
+}
 .Support {
   position: relative;
-  padding: 13px 30px;
-  padding-top: 17px;
+  padding: 15px 30px;
+  padding-top: 15px;
   padding-right: 18px;
-  margin-left: -25px; 
+  margin-left: -20px; 
   box-shadow: 5px 0 5px -5px #000;
   border-radius: 0 50px 50px 0; 
   background:  #FFFFFF;
   z-index: 1;
 }
+.Support:hover{
+  background-color:  #bebdbd;
+}
 
-.nav-links a {
+.nav-links-unauthorized a {
   text-decoration: none;
   color:#222430;
   font-family: Arial, Helvetica, sans-serif; 
   font-size: 8px; 
 }
-.nav-links a.active, .nav-links a:hover {
-  background-color: yellow;
-}
-
 
 .auth-buttons {
   margin-left: auto; 
@@ -116,19 +134,261 @@ li.login{
   border:2px solid #F79256;
   color:  #F79256;
 }
+
+li.login:hover{
+  border:2px solid #b0683e;
+  color:  #b0683e;
+}
 li.signup{
   border: 2px solid #7DCFB6;
   color: #7DCFB6;
 }
+li.signup:hover{
+  border: 2px solid #548b7a;
+  color: #548b7a;
+}
 .auth-buttons li.login, .auth-buttons li.signup {
   padding: 1px 10px;
 }
-
-
 .auth-buttons li.login, .auth-buttons li.signup {
   width: 80px; 
   height: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.nav-links-authorized {
+  list-style: none;
+  display: flex; 
+  position: relative;
+  margin-left: auto; 
+}
+.Investing {
+  position: relative;
+  padding: 15px 20px;
+  margin-left: -65px; 
+  padding-top: 15px;
+  border-radius: 50px 0 0 50px;
+  padding-right: 30px;
+  box-shadow: -5px 0 5px -5px #000;
+  background:  #fbd1a2;
+  z-index: 1;
+}
+.Investing:hover, .Notifications:hover{
+  background-color:  #ab8f6f;
+}
+.Stocks {
+  position: relative;
+  padding: 15px 17px;
+  padding-top: 15px;
+  padding-right: 30px;
+  margin-left: -20px; 
+  box-shadow: -5px 0 5px -5px #000;
+  border-radius: 50px 0 0 50px; 
+  background:  #FFFFFF;
+  z-index: 2;
+}
+.Stocks:hover{
+  background-color:  #bebdbd;
+}
+.Watchlists {
+  position: relative;
+  padding: 15px 20px;
+  margin-left: -20px; 
+  padding-right: 30px;
+  padding-top: 15px;
+  box-shadow: -5px 0 5px -5px #000;
+  border-radius: 50px 0 0 50px; 
+  background:  #F79256;
+  z-index: 3;
+}
+.Watchlists:hover{
+  background-color:  #af673d;
+}
+.Portfolios {
+  position: relative;
+  padding: 15px 20px;
+  padding-right: 30px;
+  margin-left: -20px; 
+  padding-top: 15px;
+  background: #00b2ca;
+  box-shadow: -5px 0 5px -5px #000;
+  border-radius: 50px 0 0 50px; 
+  z-index: 4;
+}
+.Portfolios:hover{
+  background-color:  #028fa2;
+}
+.Transfer {
+  position: relative;
+  padding: 15px 20px;
+  margin-left: -20px; 
+  padding-right: 75px;
+  padding-top: 15px;
+  border-radius: 50px 0 0 50px;
+  border: none;
+  font-size: 8px;
+  box-shadow: -5px 0 5px -5px #000;
+  background:  #7dcfb6;
+  z-index: 5;
+}
+.Transfer:hover{
+  background-color:  #619f8c;
+}
+.Notifications {
+  position: relative;
+  padding: 15px 20px;
+  margin-left: -65px; 
+  padding-top: 15px;
+  border-radius: 50px 0 0 50px;
+  padding-right: 25px;
+  box-shadow: -5px 0 5px -5px #000;
+  background:  #fbd1a2;
+  z-index: 6;
+}
+.Account {
+  background: #1D4E89; 
+  position: relative;
+  padding: 15px 15px;
+  margin-left: -20px; 
+  margin-right: -20px;
+  padding-top: 15px;
+  border-radius: 50px 0 0 50px;
+  padding-right: 18px;
+  border: none;
+  outline: none;
+  box-shadow: -5px 0 5px -5px #000;
+  z-index: 6;
+  text-decoration: none;
+  color:white;
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 8px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.Account:hover{
+  background-color:   #13335a;
+}
+.nav-links-authorized, a {
+  text-decoration: none;
+  color:#222430;
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 8px; 
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+.nav-links-authorized a:hover {
+  text-decoration: none;
+  color: #000000;
+}
+.account-nav-item {
+  position: relative;
+}
+
+.account-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%; 
+  left: 10;
+  right: 0;
+  z-index: 10;
+}
+
+.logout {
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  padding: 5px 50px;
+  margin-top: 10px;
+  width: 100%; 
+  text-align: left;
+  box-sizing: border-box; 
+  border: none;
+  color: white;
+  background-color: #F79256;
+  cursor: pointer;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.logout:hover {
+  background-color: #af673d;
+}
+.profile {
+  display: flex; 
+  justify-content: center;
+  align-items: center; 
+  padding: 5px;
+  margin-top: 10px;
+  width: 100%; 
+  text-align: left;
+  box-sizing: border-box; 
+  border: none;
+  color: white;
+  background-color: #1D4E89;
+  cursor: pointer;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.profile:hover {
+  background-color: #13335a;
+}
+.hamburger-menu {
+  display: block;
+  width: 20px; 
+  height: 1.5px; 
+  background-color: white; 
+  position: relative;
+  margin-left: 10px;
+  border-radius: 10px;
+}
+.hamburger-menu::before,
+.hamburger-menu::after {
+  content: "";
+  position: absolute;
+  left: 0; 
+  right: 0;
+  height: 1.5px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.hamburger-menu::before {
+  top: -6px;
+}
+
+.hamburger-menu::after {
+  bottom: -6px;
+}
+.show-dropdown {
+  display: block;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-message {
+  background-color: #4CAF50;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 80%;
+  text-align: center;
+  z-index: 1001;
+  color: white;
+}
+.popup-message.show {
+  display: block;
 }

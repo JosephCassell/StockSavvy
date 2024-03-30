@@ -4,6 +4,7 @@ import cardImage2 from '../../../../Photos/landing_page_small_banner_2.png';
 import cardImage3 from '../../../../Photos/landing_page_small_banner_3.png';
 import './LandingPage.css';
 
+
 const LandingPage = () => {
     return (
         <div className="container">
