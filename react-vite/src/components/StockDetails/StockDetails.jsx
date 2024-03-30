@@ -97,8 +97,10 @@ const StockDetails = () => {
     const filteredData = useMemo(() => {
         switch (selectedRange) {
             case '1d':
+                console.log('filtereddata1d', filteredData1D)
                 return filteredData1D;
             case '1w':
+                console.log('filtereddata1w', filteredData1W)
                 return filteredData1W;
             case '1m':
                 return filteredData1M;

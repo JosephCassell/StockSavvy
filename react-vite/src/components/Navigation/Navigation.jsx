@@ -4,7 +4,7 @@ import { thunkLogout } from '../../redux/session';
 import { useState, useEffect, useRef } from 'react';
 import { fetchInitialBalance } from '../../redux/transferActions';
 import TransferModal from "../TransferModal/TransferModal";
-import SearchBar from "../SearchBar/SearchBar"; // Import the SearchBar component
+import SearchBar from "../SearchBar/SearchBar";
 import logo from '../../../../Photos/Logo.png';
 import "./Navigation.css";
 

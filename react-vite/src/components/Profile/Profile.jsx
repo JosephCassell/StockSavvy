@@ -9,6 +9,7 @@ import WatchlistStockModal from '../WatchlistStockModal/WatchlistStockModal';
 import PortfolioModal from '../PortfolioModal/PortfolioModal';
 import PortfolioStockModal from '../PortfolioStockModal/PortfolioStockModal';
 import "./Profile.css";
+const validTabNames = ['stocks', 'watchlist', 'portfolio'];
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,6 @@ const Profile = () => {
   const queryParams = new URLSearchParams(location.search);
   const activeTabFromQuery = queryParams.get('tab');
   const navigate = useNavigate();
-  const validTabNames = ['stocks', 'watchlist', 'portfolio'];
   
   const [activeTab, setActiveTab] = useState(
     validTabNames.includes(activeTabFromQuery) ? activeTabFromQuery : 'stocks'

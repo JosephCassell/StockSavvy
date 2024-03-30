@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import './WatchlistModal.css';
 const WatchlistModal = ({ isOpen, onClose, onCreate }) => {
     const [name, setName] = useState('');
@@ -13,15 +12,16 @@ const WatchlistModal = ({ isOpen, onClose, onCreate }) => {
     if (!isOpen) return null;
   
     return (
-      <div className="modal">
-        <div className="modal-content">
-          <span className="close" onClick={onClose}>&times;</span>
+      <div className="watchlist-modal">
+        <div className="watchlist-modal-content">
+        <span className="close-btn" onClick={onClose}>&times;</span>
           <form onSubmit={handleSubmit}>
             <label>
               Watchlist Name:
               <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
             </label>
             <button type="submit">Create</button>
+            <button type="button" onClick={onClose}>Close</button>
           </form>
         </div>
       </div>

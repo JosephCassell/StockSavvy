@@ -61,10 +61,10 @@ const WatchlistStockModal = ({ isOpen, onClose, watchlistId }) => {
     return null;
   }
 
+  
   return (
-    <div className="modal" ref={modalRef}>
-      <div className="modal-content">
-        <span className="close" onClick={onClose}>&times;</span>
+    <div className="watchlistStock-modal" ref={modalRef}>
+      <div className="watchlistStock-modal-content">
         <h2>Add Stock to Watchlist</h2>
         <input
           type="text"
@@ -81,6 +81,7 @@ const WatchlistStockModal = ({ isOpen, onClose, watchlistId }) => {
             ))}
           </select>
         )}
+        <button className="watchlistStock-close-btn" onClick={onClose}>Close</button>
         {errorMessage.visible && (
             <div className="overlay" onClick={() => setErrorMessage({ visible: false, content: '' })}>
                 <div className="popup-message error" onClick={() => setErrorMessage({ visible: false, content: '' })}>

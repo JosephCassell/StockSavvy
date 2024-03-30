@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import "./PortfolioModal.css";
 const PortfolioModal = ({ isOpen, onClose, onCreate }) => {
     const [portfolioName, setPortfolioName] = useState('');
 
@@ -12,9 +12,8 @@ const PortfolioModal = ({ isOpen, onClose, onCreate }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="modal">
-            <div className="modal-content">
-                <span className="close" onClick={onClose}>&times;</span>
+        <div className="portfolio-modal">
+            <div className="portfolio-modal-content">
                 <h2>Create Portfolio</h2>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="portfolioName">Portfolio Name:</label>
@@ -25,9 +24,9 @@ const PortfolioModal = ({ isOpen, onClose, onCreate }) => {
                         onChange={(e) => setPortfolioName(e.target.value)}
                         required
                     />
-                    <div className="modal-actions">
+                    <div className="portfolio-modal-actions">
                         <button type="submit">Create</button>
-                        <button type="button" onClick={onClose}>Cancel</button>
+                        <button type="button" onClick={onClose}>Close</button>
                     </div>
                 </form>
             </div>

@@ -11,7 +11,7 @@ const loadPortfolios = (portfolios) => {
         portfolios
     };
 };
-// Get porfolios
+// Get Portfolios
 export const fetchPortfolios = (userId) => async (dispatch) => {
     try {
         const res = await fetch(`/api/portfolios/user/${userId}`);

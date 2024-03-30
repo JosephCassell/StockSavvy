@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addStockForPortfolio, fetchPortfolios, fetchTotalShares} from '../../redux/portfolioActions';
-import './PortfolioModal.css';
+import './PortfolioStockModal.css';
 
 const PortfolioStockModal = ({ isOpen, onClose, portfolioId, userStocks, user, totalShares}) => {
   const [selectedStocks, setSelectedStocks] = useState([]);
@@ -64,9 +64,8 @@ const PortfolioStockModal = ({ isOpen, onClose, portfolioId, userStocks, user, t
   }
 
   return (
-      <div className="modal">
-          <div className="modal-content">
-              <span className="close" onClick={onClose}>&times;</span>
+    <div className="portfolioStock-modal">
+          <div className="portfolioStock-modal-content">
               <h2>Add Stocks to your Portfolio</h2>
               <div className="select-all-checkbox">
                   <label className='add-all-shares'>
@@ -113,6 +112,7 @@ const PortfolioStockModal = ({ isOpen, onClose, portfolioId, userStocks, user, t
               <button onClick={handleAddStocks} disabled={selectedStocks.length === 0 || selectedStocks.some(stock => stock.quantity === 0)}>
                   Add Selected Stocks
               </button>
+              <button className="portfolioStock-close-btn" onClick={onClose}>Close</button>
               </div>
           </div>
       </div>

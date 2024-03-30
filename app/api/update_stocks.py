@@ -23,7 +23,6 @@ def buy_stock():
     quantity = int(data['quantity'])
     user = User.query.get(current_user.id)
 
-    # Define total_cost here
     total_cost = 0
 
     stock = Stock.query.filter_by(symbol=symbol, user_id=current_user.id).first()
