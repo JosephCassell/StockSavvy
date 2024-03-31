@@ -40,4 +40,3 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email
         }
-

@@ -23,6 +23,7 @@ def buy_stock():
     quantity = int(data['quantity'])
     user = User.query.get(current_user.id)
 
+
     total_cost = 0
 
     stock = Stock.query.filter_by(symbol=symbol, user_id=current_user.id).first()
@@ -75,19 +76,13 @@ def sell_stock():
     total_revenue = stock.current_price * quantity
     user.cash += total_revenue
     stock.quantity -= quantity
-    
-    portfolio_stocks = PortfolioStock.query.filter_by(stock_id=stock.id).all()
-    for portfolio_stock in portfolio_stocks:
-        portfolio_stock.shares -= quantity
-        if portfolio_stock.shares <= 0:
-            db.session.delete(portfolio_stock)
-        else:
-            portfolio_stock.total_investment = round((portfolio_stock.total_investment - total_revenue), 2)
-            portfolio_stock.average_cost = round((portfolio_stock.total_investment / portfolio_stock.shares), 2)
+
+    PortfolioStock.query.filter_by(stock_id=stock.id).delete()
 
     if stock.quantity == 0:
         db.session.delete(stock)
 
     db.session.commit()
     return jsonify({'message': 'Stock sold successfully'}), 200
+
 
