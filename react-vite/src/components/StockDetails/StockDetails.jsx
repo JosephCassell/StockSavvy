@@ -41,15 +41,16 @@ const StockDetails = () => {
                 return state.stock.historyAll;
         }
     });
-
     const filteredData1D = useMemo(() => {
-        return Array.isArray(history) ? history.filter(item => {
+        const symbolHistory = history[symbol] || [];
+        return Array.isArray(symbolHistory) ? symbolHistory.filter(item => {
             const itemDate = new Date(item.date);
             const now = new Date();
             return (now - itemDate) / (24 * 60 * 60 * 1000) < 1;
         }).reverse() : [];
-    }, [history]);
-
+    }, [history, symbol]);
+    
+    
     const filteredData1W = useMemo(() => {
         return Array.isArray(history) ? history.filter(item => {
             const itemDate = new Date(item.date);
@@ -97,10 +98,8 @@ const StockDetails = () => {
     const filteredData = useMemo(() => {
         switch (selectedRange) {
             case '1d':
-                console.log('filtereddata1d', filteredData1D)
                 return filteredData1D;
             case '1w':
-                console.log('filtereddata1w', filteredData1W)
                 return filteredData1W;
             case '1m':
                 return filteredData1M;
