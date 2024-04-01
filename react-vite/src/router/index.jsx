@@ -16,11 +16,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "login",
-        element: <LoginFormPage />,
+        element: <LoginFormPage/>,
       },
       {
         path: "signup",
-        element: <SignupFormPage />,
+        element: <SignupFormPage/>,
       },
       {
         path: "stockDetails/:symbol",

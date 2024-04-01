@@ -48,16 +48,23 @@ export const thunkSignup = (user) => async (dispatch) => {
     body: JSON.stringify(user)
   });
 
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data));
-  } else if (response.status < 500) {
-    const errorMessages = await response.json();
-    return errorMessages
-  } else {
-    return { server: "Something went wrong. Please try again" }
+  const responseBody = await response.text(); // Use text() first to avoid errors in case the body is not JSON
+  try {
+    const data = JSON.parse(responseBody);
+    if (response.ok) {
+      dispatch(setUser(data));
+    } else {
+      console.log('Error status:', response.status); // Log the status
+      console.log('Error body:', data); // Log the body
+      return data; // This should be the error messages
+    }
+  } catch (e) {
+    console.error('Error parsing server response:', responseBody);
+    return { server: "Something went wrong. Please try again" };
   }
 };
+
+
 
 export const thunkLogout = () => async (dispatch) => {
   await fetch("/api/auth/logout");
