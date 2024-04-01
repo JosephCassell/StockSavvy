@@ -3,7 +3,7 @@
     margin-left: 20px;
     margin-right: 400px;
 }
-  
+
 .search-bar input {
     padding: 5px 10px;
     font-size: 16px;
@@ -11,7 +11,7 @@
     border: 1px solid #ccc;
     margin-right: 10px;
 }
-  
+
 .search-results-dropdown {
     position: absolute;
     top: 100%;
@@ -21,22 +21,23 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     max-height: 200px;
+    width: 450px;
     overflow-y: auto;
     z-index: 1000;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-  
+
 .search-result-item {
+    font-size: 12px;
     padding: 10px 15px;
-    border-bottom: 1px solid #eee; 
+    border-bottom: 1px solid #eee;
     cursor: pointer;
 }
-  
+
 .search-result-item:last-child {
-    border-bottom: none; 
+    border-bottom: none;
 }
-  
+
 .search-result-item:hover {
     background-color: #f2f2f2;
 }
-  
