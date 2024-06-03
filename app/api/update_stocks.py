@@ -77,8 +77,6 @@ def sell_stock():
     user.cash += total_revenue
     stock.quantity -= quantity
 
-    PortfolioStock.query.filter_by(stock_id=stock.id).delete()
-
     if stock.quantity == 0:
         db.session.delete(stock)
 
