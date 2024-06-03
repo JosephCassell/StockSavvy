@@ -72,9 +72,6 @@ function Navigation() {
     <ul className="nav-links-authorized">
       <SearchBar />
       <li>
-        <NavLink to="/profile?tab=stock" className="Investing">INVESTING</NavLink>
-      </li>
-      <li>
         <NavLink to="/profile?tab=stock" className="Stocks">STOCKS</NavLink>
       </li>
       <li>
@@ -86,9 +83,9 @@ function Navigation() {
       <li>
         <button className="Transfer" onClick={openTransferModal}>TRANSFER</button>
       </li>
-      <li>
+      {/* <li>
         <NavLink to="/profile?tab=stock" className="Notifications">NOTIFICATIONS</NavLink>
-      </li>
+      </li> */}
       <li className="account-nav-item">
         <button ref={accountButtonRef} onClick={toggleDropdown} className="Account">
           ACCOUNT
@@ -107,9 +104,9 @@ function Navigation() {
   const loggedOutLinks = (
     <ul className="nav-links-unauthorized">
       <li>
-        <NavLink to="/" className="What">WHAT WE OFFER</NavLink>
+        <NavLink to="/" className="What">ABOUT</NavLink>
       </li>
-      <li>
+      {/* <li>
         <NavLink to="/" className="Gold">GOLD</NavLink>
       </li>
       <li>
@@ -120,7 +117,7 @@ function Navigation() {
       </li>
       <li>
         <NavLink to="/" className="Support">SUPPORT</NavLink>
-      </li>
+      </li> */}
     </ul>
   );
 

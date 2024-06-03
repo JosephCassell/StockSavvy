@@ -4,10 +4,12 @@ import {
     DELETE_PORTFOLIO,
     ADD_STOCK_TO_PORTFOLIO,
     REMOVE_STOCK_FROM_PORTFOLIO,
-    SET_TOTAL_SHARES
+    SET_TOTAL_SHARES,
+    LOAD_PORTFOLIOS_WITH_STOCK,
+    UPDATE_STOCK_IN_PORTFOLIO
 } from "./portfolioActions";
 
-const initialState = { portfolios: [], totalShares: {}};
+const initialState = { portfolios: [], totalShares: {}, portfoliosWithStock: [] };
 
 const portfolioReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -41,10 +43,25 @@ const portfolioReducer = (state = initialState, action) => {
                 })
             };
         case SET_TOTAL_SHARES:
-            return {
-                ...state,
-                totalShares: action.totalShares,
-            };
+            return { ...state, totalShares: action.totalShares };
+        case LOAD_PORTFOLIOS_WITH_STOCK:
+            return { ...state, portfoliosWithStock: action.portfolios};
+            case UPDATE_STOCK_IN_PORTFOLIO:
+                return { ...state, portfolios: state.portfolios.map(portfolio => {
+                        if (portfolio.id === action.portfolioId) {
+                            return {
+                                ...portfolio,
+                                portfolio_stocks: portfolio.portfolio_stocks.map(stock => {
+                                    if (stock.id === action.stock.id) {
+                                        return { ...stock, ...action.stock };
+                                    }
+                                    return stock;
+                                })
+                            };
+                        }
+                        return portfolio;
+                    })
+                };
         default:
             return state;
     }

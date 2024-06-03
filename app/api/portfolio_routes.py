@@ -5,7 +5,7 @@ from app.models import User, Portfolio, PortfolioStock, Stock, db
 
 portfolio_routes = Blueprint('portfolios', __name__)
 
-
+# Get all portfolios of a user
 @portfolio_routes.route('user/<int:id>')
 @login_required
 def user_portfolios(id):
@@ -53,7 +53,7 @@ def user_portfolios(id):
         return {'errors': {'message': 'User not found'}}, 404
 
 
-
+# Create a portfolio
 @portfolio_routes.route('/new', methods=['GET', 'POST'])
 @login_required
 def create_portfolio():
@@ -68,7 +68,7 @@ def create_portfolio():
         db.session.commit()
         return jsonify(portfolio.to_dict()), 200
     return form.errors, 400
-
+# Update a portfolio
 @portfolio_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_portfolio(id):
@@ -82,7 +82,7 @@ def update_portfolio(id):
     portfolio.name = new_name
     db.session.commit()
     return jsonify(portfolio.to_dict()), 200
-
+# Delete a Portfolio
 @portfolio_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_portfolio(id):
@@ -92,7 +92,7 @@ def delete_portfolio(id):
     db.session.delete(portfolio)
     db.session.commit()
     return jsonify({'message': 'Portfolio successfully deleted.'}), 200
-
+# Get all shares a user has for each stock across all portfolios
 @portfolio_routes.route('/user/<int:id>/total-shares')
 @login_required
 def user_total_shares(id):
@@ -108,5 +108,36 @@ def user_total_shares(id):
 
         total_shares_data = {stock_symbol: shares for stock_symbol, shares in total_shares}
         return jsonify(total_shares_data)
+    else:
+        return {'errors': {'message': 'User not found'}}, 404
+# Get all portfolios that contain a specific stock
+@portfolio_routes.route('/user/<int:id>/stock/<string:stock_symbol>')
+@login_required
+def user_portfolios_with_stock(id, stock_symbol):
+    if current_user.id != id:
+        return {'errors': {'message': 'Unauthorized'}}, 401
+
+    user = User.query.get(id)
+    if user:
+        portfolios_data = []
+        for portfolio in user.portfolios:
+            for portfolio_stock in portfolio.portfolio_stocks:
+                stock = Stock.query.get(portfolio_stock.stock_id)
+                if stock.symbol == stock_symbol:
+                    stock_data = {
+                        'id': stock.id,
+                        'name': stock.name,
+                        'symbol': stock.symbol,
+                        'shares': portfolio_stock.shares,
+                    }
+                    portfolio_data = {
+                        'id': portfolio.id,
+                        'name': portfolio.name,
+                        'stock': stock_data
+                    }
+                    portfolios_data.append(portfolio_data)
+                    break  # No need to continue once we found the stock in this portfolio
+
+        return jsonify(portfolios_data)
     else:
         return {'errors': {'message': 'User not found'}}, 404

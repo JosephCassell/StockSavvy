@@ -1,0 +1,82 @@
+.sell-portfolio-stock-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.sell-portfolio-stock-modal {
+    background-color: #23394d;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.close-button {
+    left: 480px;
+    top: -5px; 
+    background-color: transparent;
+    border: none;
+    font-size: 0.8rem;
+    cursor: pointer;
+    position: relative;
+    color: white;
+}
+
+.close-button:hover {
+    color: rgb(180, 179, 179);
+}
+
+.sell-portfolio-stock-modal h2 {
+    margin-top: 0;
+    color: #fbd1a2;
+}
+
+.sell-portfolio-stock-modal input[type="number"] {
+    margin-left: 10px;
+    width: 60px;
+}
+
+.sell-portfolio-stock-modal ul {
+    list-style: none;
+    padding: 0;
+    color: white;
+}
+.sell-portfolio-stock-modal {
+    color: white; 
+}
+.sell-portfolio-stock-modal li {
+    margin-bottom: 10px;
+}
+
+.sell-portfolio-stock-modal input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.sell-portfolio-stock-modal-confirm {
+    padding: 10px 20px;
+    background-color: #e0a96d;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sell-portfolio-stock-modal-confirm:hover {
+    background-color: #a0784d;
+}
+
+.sell-portfolio-stock-modal-confirm:disabled {
+    background-color: lightgrey;
+    cursor: default;
+}

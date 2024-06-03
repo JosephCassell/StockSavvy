@@ -4,6 +4,7 @@ import requests
 
 stock_details = Blueprint('stockDetails', __name__)
 api_key = '5749959e9f6a67949de1a7e4457b47fb'
+# Get Stock-Details
 @stock_details.route('/stocks/<symbol>', methods=['GET'])
 def get_stock_details(symbol):
     url = f'https://financialmodelingprep.com/api/v3/profile/{symbol}?apikey={api_key}'
@@ -47,7 +48,7 @@ def get_stock_history(symbol):
     if not data:
         return jsonify({'error': 'No historical data found for the given symbol'}), 404
     return jsonify(data)
-# Get routes for 1d
+# Get routes for 1D
 @stock_details.route('/<symbol>/history/1d', methods=['GET'])
 def get_stock_history_1d(symbol):
     url = f'https://financialmodelingprep.com/api/v3/historical-chart/5min/{symbol}?apikey={api_key}'
@@ -56,7 +57,7 @@ def get_stock_history_1d(symbol):
     if not data:
         return jsonify({'error': 'No historical data found for the given symbol'}), 404
     return jsonify(data)
-# Get routes for 1w
+# Get routes for 1W
 @stock_details.route('/<symbol>/history/1w', methods=['GET'])
 def get_stock_history_1w(symbol):
     url = f'https://financialmodelingprep.com/api/v3/historical-chart/1hour/{symbol}?serietype=line&timeseries=7&apikey={api_key}'
@@ -65,7 +66,7 @@ def get_stock_history_1w(symbol):
     if not data:
         return jsonify({'error': 'No historical data found for the given symbol'}), 404
     return jsonify(data)
-# # Get routes for 1m
+# Get routes for 1M
 @stock_details.route('/<symbol>/history/1m', methods=['GET'])
 def get_stock_history_1m(symbol):
     url = f'https://financialmodelingprep.com/api/v3/historical-chart/2hour/{symbol}?serietype=line&timeseries=30&apikey={api_key}'
