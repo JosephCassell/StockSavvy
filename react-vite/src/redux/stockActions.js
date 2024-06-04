@@ -22,6 +22,10 @@ export const UPDATE_STOCKS = 'stock/updateStocks';
 
 export const SET_OWNERSHIP = 'stock/setOwnership';
 
+export const SEARCH_STOCKS_REQUEST = 'stock/SEARCH_STOCKS_REQUEST';
+export const SEARCH_STOCKS_SUCCESS = 'stock/SEARCH_STOCKS_SUCCESS';
+export const SEARCH_STOCKS_FAILURE = 'stock/SEARCH_STOCKS_FAILURE';
+
 // Fetch historical data for 1d
 export const fetchStockHistory1D = (symbol) => async (dispatch) => {
   try {
@@ -154,3 +158,21 @@ export const checkOwnership = (symbol) => async (dispatch) => {
     return false;
   }
 };
+
+// Search for a stock
+export const searchStocks = (query) => async (dispatch) => {
+  dispatch({ type: SEARCH_STOCKS_REQUEST });
+  try {
+    const response = await fetch(`/search/stocks?query=${query}`);
+    const data = await response.json();
+    const action = { type: SEARCH_STOCKS_SUCCESS, payload: data };
+    dispatch(action);
+    return action;  // Explicitly return the action object
+  } catch (error) {
+    console.error('Error searching stocks:', error);
+    const action = { type: SEARCH_STOCKS_FAILURE, payload: error.message };
+    dispatch(action);
+    return action;  // Explicitly return the action object
+  }
+};
+

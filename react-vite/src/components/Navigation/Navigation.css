@@ -1,11 +1,11 @@
 .navbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   background-color: #23394d; 
   padding: 2px 20px;
-  border-bottom: 2px solid white; 
+  border-bottom: 2px solid white;
 }
-
 
 .logo {
   background: #1D4E89; 
@@ -206,7 +206,7 @@ li.signup:hover{
 .Portfolios {
   position: relative;
   padding: 15px 20px;
-  padding-right: 30px;
+  padding-right: 50px;
   margin-left: -20px; 
   padding-top: 15px;
   background: #00b2ca;
@@ -220,7 +220,8 @@ li.signup:hover{
 .Transfer {
   position: relative;
   padding: 15px 20px;
-  margin-left: -20px; 
+  margin-left: -40px; 
+  margin-right: -42px; 
   padding-right: 75px;
   padding-top: 15px;
   border-radius: 50px 0 0 50px;
@@ -229,6 +230,7 @@ li.signup:hover{
   box-shadow: -5px 0 5px -5px #000;
   background:  #7dcfb6;
   z-index: 5;
+  cursor: pointer;
 }
 .Transfer:hover{
   background-color:  #619f8c;

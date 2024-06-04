@@ -4,7 +4,8 @@ from app.models import db, Stock, environment, SCHEMA
 from sqlalchemy.sql import text
 
 
-
+def seed_stocks():
+    db.session.commit()
 
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't

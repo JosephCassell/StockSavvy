@@ -38,6 +38,11 @@
 }
 .market-movers-container {
 }
+.market-movers-container {
+    background-color: transparent;
+    border-radius: 4px;
+    border: 0.5px solid #fbd1a2;
+}
 
 .stock-chart-container {
     flex-grow: 2;
@@ -49,14 +54,22 @@
     border-radius: 4px;
     border: 0.5px solid #fbd1a2;
   }
+}
   
   .market-movers-header {
     color: white; 
+}
+
+.market-movers-header {
+    color: white;
     font-size: small;
     font-family: Arial, Helvetica, sans-serif;
     padding: 10px;
     margin-top: 0;
   }
+}
+
+
 .price-difference.positive {
     color: #08BD20;
 }
@@ -110,7 +123,7 @@
     border-radius: 4px;
     border: 0.5px solid #fbd1a2;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 400px;
 }
 
 .stock-trade-container h3 {
@@ -147,4 +160,20 @@
 
 .stock-trade-container button:hover {
     background-color: #13335a;
+}
+.stock-info-container {
+    background-color: transparent;
+    border-radius: 5px;
+    max-width: 80vw;
+    margin: 20px 0;
+}
+
+.stock-info-container p {
+    margin: 10px 0; 
+    font-size: 16px; 
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.stock-info-container p strong {
+    font-weight: bold;
 }

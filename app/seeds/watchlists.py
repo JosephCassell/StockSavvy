@@ -3,6 +3,10 @@ from sqlalchemy.sql import text
 
 
 def seed_watchlists():
+    Main = Watchlist (
+        user_id = 1, name = 'Main'
+    )
+    db.session.add(Main)
     db.session.commit()
 
 

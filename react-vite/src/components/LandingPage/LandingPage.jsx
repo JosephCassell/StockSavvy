@@ -6,8 +6,6 @@ import './LandingPage.css';
 
 
 const LandingPage = () => {
-    // const user = useSelector((state) => state.session.user);
-    // console.log(user); // Check if the user is defined
     return (
         <div className="container">
             <img className="main-image" src={landingPageImage} alt="Landing Page" />
