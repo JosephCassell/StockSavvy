@@ -231,7 +231,7 @@ const StockDetails = () => {
             setErrorMessage({ visible: true, content: response.error });
         } else if (response && response.message === 'Stock purchased successfully') {
             localStorage.setItem('buySuccessMessage', 'Purchase successful');
-             window.location.reload();
+            window.location.reload();
         }
     };
     const handleSell = async () => {
@@ -249,17 +249,16 @@ const StockDetails = () => {
     };
     const handleConfirmSell = async (selectedPortfolios) => {
         const totalSellQuantity = selectedPortfolios.reduce((total, { quantity }) => total + quantity, 0);
-    
+
         if (totalSellQuantity > quantity) {
             setErrorMessage({ visible: true, content: 'You cannot sell more shares than the quantity you have inputted.' });
             return;
         }
-    
+
         const portfolioPromises = selectedPortfolios.map(({ portfolioId, quantity }) => {
-            console.log('Updating portfolio:', portfolioId, 'with quantity:', quantity);
             return dispatch(updateStockForPortfolio(portfolioId, portfoliosWithStock[0]?.stock.id, quantity));
         });
-    
+
         Promise.all(portfolioPromises)
             .then(() => {
                 return dispatch(sellStock(symbol, quantity));
@@ -276,13 +275,13 @@ const StockDetails = () => {
                 setErrorMessage({ visible: true, content: error.message });
             });
     };
-    
-    
+
+
 
     const closePopup = () => {
         setPopupMessage({ visible: false, content: '' });
     };
-    
+
     const closeValues = filteredData.map(item => item.close);
     const minValue = Math.min(...closeValues);
     const maxValue = Math.max(...closeValues);

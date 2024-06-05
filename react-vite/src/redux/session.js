@@ -31,7 +31,6 @@ export const thunkLogin = (credentials) => async dispatch => {
 
   if (response.ok) {
     const data = await response.json();
-    console.log('Login data received:', data);
     dispatch(setUser(data));
   } else if (response.status < 500) {
     const errorMessages = await response.json();
@@ -54,8 +53,6 @@ export const thunkSignup = (user) => async (dispatch) => {
     if (response.ok) {
       dispatch(setUser(data));
     } else {
-      console.log('Error status:', response.status); // Log the status
-      console.log('Error body:', data); // Log the body
       return data; // This should be the error messages
     }
   } catch (e) {
@@ -74,7 +71,6 @@ export const thunkLogout = () => async (dispatch) => {
 const initialState = { user: null };
 
 function sessionReducer(state = initialState, action) {
-  console.log('Reducer action received:', action);
   switch (action.type) {
     case SET_USER:
       return { ...state, user: action.payload };

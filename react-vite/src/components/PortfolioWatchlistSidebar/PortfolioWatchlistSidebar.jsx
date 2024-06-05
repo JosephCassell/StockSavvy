@@ -23,7 +23,7 @@ const PortfolioWatchlistSidebar = ({ portfolio, watchlists }) => {
         ...prev,
         [id]: !prev[id],
     }));
-    const addWatchlist = () => console.log("Add watchlist");
+    const addWatchlist = () => alert("Add watchlist");
     return (
         <div className="collapsible-containers">
             <button className="collapsible-toggle" onClick={togglePortfolios}>

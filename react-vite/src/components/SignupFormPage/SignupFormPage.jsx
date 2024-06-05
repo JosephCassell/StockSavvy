@@ -18,15 +18,15 @@ function SignupFormPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
-  
+
   if (sessionUser) return <Navigate to="/" replace={true} />;
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
-  
+
     let newErrors = {};
-  
+
     if (!first_name.trim()) {
       newErrors.first_name = "First name is required.";
     }
@@ -47,12 +47,12 @@ function SignupFormPage() {
     if (password !== confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match.";
     }
-  
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-  
+
     const serverResponse = await dispatch(thunkSignup({
       first_name,
       last_name,
@@ -60,23 +60,23 @@ function SignupFormPage() {
       username,
       password
     }));
-  
+
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
       navigate("/");
     }
   };
-  
-  
+
+
 
   return (
     <div className="signup-container">
       <img src={moon} className="moon"></img>
 
       <div className="signup-left-container">
-        <img src={logo} alt="website logo" className="stock-savvy" onClick={() => {navigate('/')}}></img>
-        
+        <img src={logo} alt="website logo" className="stock-savvy" onClick={() => { navigate('/') }}></img>
+
         <div className="signup-left-side-words">
           <div className="signup-left-side-title">CREATE YOUR LOGIN</div>
           <div className="signup-left-side-line-sub-title">
@@ -104,8 +104,8 @@ function SignupFormPage() {
                   placeholder="FIRST NAME"
                   value={first_name}
                   onChange={(e) => setFirstName(e.target.value)}
-                  />
-                  {errors.first_name && <p className="error-message">{errors.first_name}</p>}
+                />
+                {errors.first_name && <p className="error-message">{errors.first_name}</p>}
               </label>
               <label>
                 <input
@@ -115,8 +115,8 @@ function SignupFormPage() {
                   placeholder="LAST NAME"
                   value={last_name}
                   onChange={(e) => setLastName(e.target.value)}
-                  />
-                  {errors.last_name && <p className="error-message">{errors.last_name}</p>}
+                />
+                {errors.last_name && <p className="error-message">{errors.last_name}</p>}
               </label>
             </div>
 
@@ -127,10 +127,9 @@ function SignupFormPage() {
                   placeholder='EMAIL'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  />
-                  {errors.email && <p className="error-message">{errors.email}</p>}
+                />
+                {errors.email && <p className="error-message">{errors.email}</p>}
               </label>
-                {console.log('errors', errors)}
             </div>
 
             <div className='username-container'>
@@ -140,7 +139,7 @@ function SignupFormPage() {
                   placeholder='USERNAME'
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  />
+                />
                 {errors.username && <p className="error-message">{errors.username}</p>}
               </label>
             </div>
@@ -152,8 +151,8 @@ function SignupFormPage() {
                   placeholder='PASSWORD (MIN. 10 CHARACTERS)'
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  />
-                  {errors.password && <p className="error-message">{errors.password}</p>}
+                />
+                {errors.password && <p className="error-message">{errors.password}</p>}
               </label>
             </div>
 
@@ -164,8 +163,8 @@ function SignupFormPage() {
                   placeholder='CONFIRM PASSWORD'
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
-                  {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
+                />
+                {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
               </label>
             </div>
             <div className='bottom-text'>
@@ -173,8 +172,8 @@ function SignupFormPage() {
               <p onClick={() => navigate('/login')}>LOG IN TO COMPLETE YOUR APPLICATION</p>
             </div>
             <div className='button-container'>
-              <button className='signup-button'type="submit">SIGN UP</button>
-          </div>
+              <button className='signup-button' type="submit">SIGN UP</button>
+            </div>
           </form>
 
           <div className='signup-footer'>
@@ -182,11 +181,11 @@ function SignupFormPage() {
             <div onClick={() => alert('By clicking the link you have agreed to Zelle the Party Pandas 10 dollars EACH!')}>AGREEMENT AND PRIVACY POLICY.</div>
           </div>
         </div>
-      {errors.server && <p>{errors.server}</p>}
-      {errors.email && <p>{errors.email}</p>}
-      {errors.username && <p>{errors.username}</p>}
-      {errors.password && <p>{errors.password}</p>}
-      {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {errors.server && <p>{errors.server}</p>}
+        {errors.email && <p>{errors.email}</p>}
+        {errors.username && <p>{errors.username}</p>}
+        {errors.password && <p>{errors.password}</p>}
+        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
       </div>
 
     </div>
