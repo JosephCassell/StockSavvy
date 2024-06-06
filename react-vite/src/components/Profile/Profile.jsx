@@ -134,46 +134,48 @@ const Profile = () => {
       <p>Stocks: {formatCurrency(totalEquity)}</p>
       <p>Total Balance: {formatCurrency(totalBalance)}</p>
 
-      {activeTab === 'stocks' && profile.stocks.length > 0 ? (
-        <div>
-          <h3>Stocks</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Symbol</th>
-                <th>Shares</th>
-                <th>Price</th>
-                <th>Average Cost</th>
-                <th>Total Return</th>
-                <th>Equity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {profile.stocks.map((stock) => {
-                const equity = stock.quantity * stock.current_price;
-                const totalReturn = (stock.current_price - stock.average_cost) * stock.quantity;
-                return (
-                  <tr key={stock.id} onClick={() => navigate(`/stockDetails/${stock.symbol}`)}>
-                    <td>{stock.name}</td>
-                    <td>{stock.symbol}</td>
-                    <td>{stock.quantity}</td>
-                    <td>{formatCurrency(stock.current_price)}</td>
-                    <td>{formatCurrency(stock.average_cost)}</td>
-                    <td>{formatCurrency(totalReturn)}</td>
-                    <td>{formatCurrency(equity)}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div className='no-stocks'>
-          <p>No stocks owned</p>
-          <p>Use the search feature to find a stock that interests you!</p>
-        </div>
-      )}
+      {activeTab === 'stocks' ? (
+        profile.stocks.length > 0 ? (
+          <div>
+            <h3>Stocks</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Symbol</th>
+                  <th>Shares</th>
+                  <th>Price</th>
+                  <th>Average Cost</th>
+                  <th>Total Return</th>
+                  <th>Equity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {profile.stocks.map((stock) => {
+                  const equity = stock.quantity * stock.current_price;
+                  const totalReturn = (stock.current_price - stock.average_cost) * stock.quantity;
+                  return (
+                    <tr key={stock.id} onClick={() => navigate(`/stockDetails/${stock.symbol}`)}>
+                      <td>{stock.name}</td>
+                      <td>{stock.symbol}</td>
+                      <td>{stock.quantity}</td>
+                      <td>{formatCurrency(stock.current_price)}</td>
+                      <td>{formatCurrency(stock.average_cost)}</td>
+                      <td>{formatCurrency(totalReturn)}</td>
+                      <td>{formatCurrency(equity)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className='no-stocks'>
+            <p>No stocks owned</p>
+            <p>Use the search feature to find a stock that interests you!</p>
+          </div>
+        )
+      ) : null}
       {activeTab === 'watchlist' && watchlists && (
         <div>
           <h3>Watchlists <button onClick={() => setShowModal(true)}>+</button></h3>
