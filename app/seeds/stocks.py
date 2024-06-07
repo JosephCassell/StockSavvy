@@ -1,10 +1,36 @@
 import os
+from flask import jsonify
 import requests
 from app.models import db, Stock, environment, SCHEMA
 from sqlalchemy.sql import text
 
+api_key = '5749959e9f6a67949de1a7e4457b47fb'
+
+def fetch_live_stock_data(symbol):
+    url = f'https://financialmodelingprep.com/api/v3/profile/{symbol}?apikey={api_key}'
+    response = requests.get(url)
+    if response.status_code != 200:
+        return jsonify({'error': 'Failed to fetch data'}), response.status_code
+
+    data = response.json()
+    if not data:
+        return jsonify({'error': 'No data found for the given symbol'}), 404
+    stock_data = data[0]
+    return stock_data
 
 def seed_stocks():
+    symbols = ['AAPL', 'AMD', 'TSLA']
+    for symbol in symbols:
+        stock_data = fetch_live_stock_data(symbol)
+        stock = Stock(
+            user_id = 1,
+            name = stock_data['companyName'],
+            symbol = symbol,
+            current_price = stock_data['price'],
+            quantity = 5,
+            total_investment = (stock_data['price'] * 5)
+        )
+        db.session.add(stock)
     db.session.commit()
 
 
