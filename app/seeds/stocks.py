@@ -10,11 +10,13 @@ def fetch_live_stock_data(symbol):
     url = f'https://financialmodelingprep.com/api/v3/profile/{symbol}?apikey={api_key}'
     response = requests.get(url)
     if response.status_code != 200:
-        return jsonify({'error': 'Failed to fetch data'}), response.status_code
+        print(f'Failed to fetch data for {symbol}: Status code {response.status_code}')
+        return None
 
     data = response.json()
     if not data:
-        return jsonify({'error': 'No data found for the given symbol'}), 404
+        print(f'No data found for {symbol}')
+        return None
     stock_data = data[0]
     return stock_data
 
@@ -22,8 +24,15 @@ def seed_stocks():
     symbols = ['AAPL', 'AMD', 'TSLA']
     for symbol in symbols:
         stock_data = fetch_live_stock_data(symbol)
-        name=stock_data['companyName']
-        current_price=stock_data['price']
+        if stock_data is None:
+            print(f'Skipping {symbol} due to fetch error')
+            continue
+
+        name = stock_data.get('companyName')
+        current_price = stock_data.get('price')
+        if name is None or current_price is None:
+            print(f'Skipping {symbol} due to missing data')
+            continue
         stock = Stock(
             user_id=1,
             name=name,
