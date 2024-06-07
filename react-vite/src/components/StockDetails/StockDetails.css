@@ -36,8 +36,7 @@
     flex-grow: 2; 
     margin-right: 20px; 
 }
-.market-movers-container {
-}
+
 .market-movers-container {
     background-color: transparent;
     border-radius: 4px;
@@ -53,10 +52,9 @@
     background-color: transparent;
     border-radius: 4px;
     border: 0.5px solid #fbd1a2;
-  }
 }
   
-  .market-movers-header {
+.market-movers-header {
     color: white; 
 }
 
@@ -66,9 +64,7 @@
     font-family: Arial, Helvetica, sans-serif;
     padding: 10px;
     margin-top: 0;
-  }
 }
-
 
 .price-difference.positive {
     color: #08BD20;

@@ -14,8 +14,8 @@
   background-color: #23394d;
   margin: 15% auto;
   padding: 20px;
-  border: 1px solid #888;
   width: 30%;
+  border-radius: 5px;
 }
 
 .watchlistStock-close {

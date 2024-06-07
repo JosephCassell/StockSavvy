@@ -1,9 +1,9 @@
 from flask import Blueprint, jsonify
 from app.models import Stock, db
-import requests
+import requests, os
 
 stock_details = Blueprint('stockDetails', __name__)
-api_key = '5749959e9f6a67949de1a7e4457b47fb'
+api_key = os.environ.get('STOCK_API_KEY')
 # Get Stock-Details
 @stock_details.route('/stocks/<symbol>', methods=['GET'])
 def get_stock_details(symbol):

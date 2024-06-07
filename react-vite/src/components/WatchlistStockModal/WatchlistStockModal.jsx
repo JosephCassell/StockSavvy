@@ -65,7 +65,7 @@ const WatchlistStockModal = ({ isOpen, onClose, watchlistId }) => {
   return (
     <div className="watchlistStock-modal" ref={modalRef}>
       <div className="watchlistStock-modal-content">
-        <h2>Add Stock to Watchlist</h2>
+        <h2>Add Stocks to your Watchlists</h2>
         <input
           type="text"
           value={searchQuery}

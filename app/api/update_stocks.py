@@ -1,9 +1,10 @@
 from flask import Blueprint, jsonify, request
 from app.models import Stock, db, User, Portfolio, PortfolioStock
 from flask_login import current_user, login_required
-import requests
+import requests, os
+
 update_stocks = Blueprint('updateStocks', __name__)
-api_key = '5749959e9f6a67949de1a7e4457b47fb'
+API_KEY = os.environ.get('STOCK_API_KEY')
 
 # Get current user's stock by symbol
 @update_stocks.route('/user/<symbol>', methods=['GET'])
@@ -14,7 +15,7 @@ def check_ownership(symbol):
     owns_stock = stock is not None and stock.quantity > 0
     return jsonify({'owns_stock': owns_stock})
 
-# Buy stock
+# Buy a stock
 @update_stocks.route('/buy', methods=['POST'])
 @login_required
 def buy_stock():
@@ -29,7 +30,7 @@ def buy_stock():
     stock = Stock.query.filter_by(symbol=symbol, user_id=current_user.id).first()
 
     if not stock:
-        api_url = f'https://financialmodelingprep.com/api/v3/quote/{symbol}?apikey={api_key}'
+        api_url = f'https://financialmodelingprep.com/api/v3/quote/{symbol}?apikey={API_KEY}'
         response = requests.get(api_url)
         if response.status_code != 200:
             return jsonify({'error': 'Failed to fetch stock data'}), 500
@@ -60,7 +61,7 @@ def buy_stock():
     updated_stocks = [stock.to_dict() for stock in user.stocks]
     return jsonify({'message': 'Stock purchased successfully', 'stocks': updated_stocks}), 200
 
-# Sell stock
+# Sell a stock
 @update_stocks.route('/sell', methods=['POST'])
 @login_required
 def sell_stock():

@@ -19,7 +19,23 @@
   max-width: 500px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+.form-row {
+  display: flex;
+  align-items: center; 
+  width: 100%;
+  margin: 10px 0;
+}
+label {
+  white-space: nowrap; 
+  margin-bottom: 15px;
+}
 
+input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
 .close-btn {
   background-color: transparent;
   border: none;
@@ -42,6 +58,7 @@ input[type="text"] {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  margin-left: 10px;
 }
 
 button[type="submit"] {

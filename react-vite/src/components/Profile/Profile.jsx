@@ -36,18 +36,24 @@ const Profile = () => {
   );
   
   const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
+    const handleModalContentClick = (e) => {
+      e.stopPropagation();
+    };
+  
     if (!isOpen) return null;
-    
+  
     return (
-      <div className="modal">
-        <div className="modal-content">
+      <div className="delete-watchlist-modal" onClick={onClose}>
+        <div className="delete-watchlist-modal-content" onClick={handleModalContentClick}>
           <h3>Are you sure you want to delete your watchlist?</h3>
-          <button onClick={onConfirm}>Yes</button>
-          <button onClick={onClose}>No</button>
+          <div className="delete-watchlist-modal-buttons">
+            <button className = "delete-watchlist-modal-yes" onClick={onConfirm}>Yes (Delete my watchlist)</button>
+            <button className = "delete-watchlist-modal-no" onClick={onClose}>No (Keep my watchlist)</button>
+          </div>
         </div>
       </div>
     );
-  };
+  };  
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const tab = queryParams.get('tab');

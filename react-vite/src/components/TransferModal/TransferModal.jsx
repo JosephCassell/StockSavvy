@@ -39,9 +39,16 @@ function TransferModal({ onClose, userId, onSuccess }) {
     }
     return '';
   };
+  const handleBackgroundClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  }
+  
 
+  
   return (
-    <div className="modal-background">
+    <div className="modal-background"  onClick={handleBackgroundClick}>
       <div className="transfer-modal-content">
       <h3>Current Balance: ${balance.toFixed(2)}</h3>
         <form onSubmit={handleSubmit}>
@@ -80,7 +87,7 @@ function TransferModal({ onClose, userId, onSuccess }) {
             Transfer
           </button>
         </form>
-        <button onClick={onClose}>Close</button>
+        <button onClick={onClose}>Cancel</button>
       </div>
     </div>
   );
