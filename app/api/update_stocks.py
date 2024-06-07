@@ -1,9 +1,9 @@
 from flask import Blueprint, jsonify, request
 from app.models import Stock, db, User, Portfolio, PortfolioStock
 from flask_login import current_user, login_required
-import requests
+import requests, os
 update_stocks = Blueprint('updateStocks', __name__)
-api_key = '5749959e9f6a67949de1a7e4457b47fb'
+api_key =  os.environ.get('STOCK_API_KEY')
 
 # Get current user's stock by symbol
 @update_stocks.route('/user/<symbol>', methods=['GET'])

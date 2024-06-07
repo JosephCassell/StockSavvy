@@ -4,7 +4,7 @@ import requests
 from app.models import db, Stock, environment, SCHEMA
 from sqlalchemy.sql import text
 
-api_key = '5749959e9f6a67949de1a7e4457b47fb'
+api_key = os.environ.get('STOCK_API_KEY')
 
 def fetch_live_stock_data(symbol):
     url = f'https://financialmodelingprep.com/api/v3/profile/{symbol}?apikey={api_key}'
