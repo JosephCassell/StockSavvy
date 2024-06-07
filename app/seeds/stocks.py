@@ -22,13 +22,15 @@ def seed_stocks():
     symbols = ['AAPL', 'AMD', 'TSLA']
     for symbol in symbols:
         stock_data = fetch_live_stock_data(symbol)
+        name=stock_data['companyName']
+        current_price=stock_data['price']
         stock = Stock(
-            user_id = 1,
-            name = stock_data['companyName'],
-            symbol = symbol,
-            current_price = stock_data['price'],
-            quantity = 5,
-            total_investment = (stock_data['price'] * 5)
+            user_id=1,
+            name=name,
+            symbol=symbol,
+            current_price=current_price,
+            quantity=5,
+            total_investment=current_price * 5
         )
         db.session.add(stock)
     db.session.commit()
