@@ -80,8 +80,8 @@ function SignupFormPage() {
         <div className="signup-left-side-words">
           <div className="signup-left-side-title">CREATE YOUR LOGIN</div>
           <div className="signup-left-side-line-sub-title">
-            <div>WE'LL NEED YOUR NAME, EMAIL ADDRESS, AND A UNIQUE PASSWORD.</div>
-            <div>YOU'LL USE THIS LOGIN TO ACCESS STOCK SAVVY NEXT TIME.</div>
+            <div>{"WE'LL NEED YOUR NAME, EMAIL ADDRESS, AND A UNIQUE PASSWORD."}</div>
+            <div>{"YOU'LL USE THIS LOGIN TO ACCESS STOCK SAVVY NEXT TIME."}</div>
           </div>
         </div>
 
@@ -177,8 +177,8 @@ function SignupFormPage() {
           </form>
 
           <div className='signup-footer'>
-            <div onClick={() => alert('By clicking the link you have agreed to Zelle the Party Pandas 10 dollars EACH!')}>BY CONTINUING, YOU AGREE TO THE STOCK SAVVY USER ACCOUNT</div>
-            <div onClick={() => alert('By clicking the link you have agreed to Zelle the Party Pandas 10 dollars EACH!')}>AGREEMENT AND PRIVACY POLICY.</div>
+            <div onClick={() => alert('Thanks for clicking!')}>BY CONTINUING, YOU AGREE TO THE STOCK SAVVY USER ACCOUNT</div>
+            <div onClick={() => alert('Thanks for clicking!')}>AGREEMENT AND PRIVACY POLICY.</div>
           </div>
         </div>
         {errors.server && <p>{errors.server}</p>}
