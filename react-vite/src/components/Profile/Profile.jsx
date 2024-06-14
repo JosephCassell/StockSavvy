@@ -8,6 +8,8 @@ import WatchlistModal from '../WatchListModal/WatchlistModal';
 import WatchlistStockModal from '../WatchlistStockModal/WatchlistStockModal';
 import PortfolioModal from '../PortfolioModal/PortfolioModal';
 import PortfolioStockModal from '../PortfolioStockModal/PortfolioStockModal';
+import DeletePortfolioModal from '../DeletePortfolioModal/DeletePortfolioModal';
+import RemoveStockModal from '../RemoveStockModal/RemoveStockModal';
 import "./Profile.css";
 const validTabNames = ['stocks', 'watchlist', 'portfolio'];
 
@@ -25,6 +27,10 @@ const Profile = () => {
   const [selectedPortfolioId, setSelectedPortfolioId] = useState(null);
   const [showPortfolioStockModal, setShowPortfolioStockModal] = useState(false);
   const [deleteWatchlistId, setDeleteWatchlistId] = useState(null);
+  const [showDeletePortfolioModal, setShowDeletePortfolioModal] = useState(false);
+  const [deletePortfolioId, setDeletePortfolioId] = useState(null);
+  const [showRemoveStockModal, setShowRemoveStockModal] = useState(false); 
+  const [removeStockInfo, setRemoveStockInfo] = useState({ portfolioId: null, stockId: null });
   const totalShares = useSelector((state) => state.portfolio.totalShares);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -106,12 +112,12 @@ const Profile = () => {
     });
   };
 
-  const handleDeletePortfolio = (portfolioId) => {
-    dispatch(deletePortfolio(portfolioId)).then(() => {
-      if (user && user.id) {
-        dispatch(fetchPortfolios(user.id));
-      }
-    });
+  const handleDeletePortfolio = () => {
+    if (deletePortfolioId) {
+      dispatch(deletePortfolio(deletePortfolioId));
+      setShowDeletePortfolioModal(false);
+      setDeletePortfolioId(null);
+    }
   };
 
   const handleAddStocksToPortfolio = (portfolioId) => {
@@ -119,12 +125,17 @@ const Profile = () => {
     setShowPortfolioStockModal(true);
   };
 
-  const handleRemoveStockFromPortfolio = (portfolioId, stockId) => {
-    dispatch(deleteStockFromPortfolio(portfolioId, stockId)).then(() => {
-      if (user && user.id) {
-        dispatch(fetchPortfolios(user.id));
-      }
-    });
+  const handleRemoveStock = () => {
+    const { portfolioId, stockId } = removeStockInfo;
+    if (portfolioId && stockId) {
+      dispatch(deleteStockFromPortfolio(portfolioId, stockId)).then(() => {
+        if (user && user.id) {
+          dispatch(fetchPortfolios(user.id));
+        }
+        setShowRemoveStockModal(false);
+        setRemoveStockInfo({ portfolioId: null, stockId: null });
+      });
+    }
   };
   return (
     <div className='profile-page'>
@@ -219,7 +230,7 @@ const Profile = () => {
             <div key={portfolio.id}>
               <h4>{portfolio.name}</h4>
               <button onClick={() => handleAddStocksToPortfolio(portfolio.id)}>Add Stocks to Portfolio</button>
-              <button onClick={() => handleDeletePortfolio(portfolio.id)}>Delete Portfolio</button>
+              <button onClick={() => { setDeletePortfolioId(portfolio.id); setShowDeletePortfolioModal(true); }}>Delete Portfolio</button>
               <table>
                 <thead>
                   <tr>
@@ -230,7 +241,7 @@ const Profile = () => {
                     <th>Average Cost</th>
                     <th>Total Return</th>
                     <th>Equity</th>
-                    <th>Action</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -245,12 +256,12 @@ const Profile = () => {
                     <td>{formatCurrency(stock.equity)}</td>
                     <td>
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleRemoveStockFromPortfolio(portfolio.id, stock.stock_id);
-                        }}
-                      >
-                        Remove Stock
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setRemoveStockInfo({ portfolioId: portfolio.id, stockId: stock.stock_id });
+                            setShowRemoveStockModal(true);
+                          }}
+                        > Remove Stock 
                       </button>
                     </td>
                   </tr>
@@ -296,6 +307,16 @@ const Profile = () => {
         userStocks={profile.stocks}
         user={user}
         totalShares={totalShares} 
+      />
+      <DeletePortfolioModal
+        isOpen={showDeletePortfolioModal}
+        onClose={() => setShowDeletePortfolioModal(false)}
+        onConfirm={handleDeletePortfolio}
+      />
+      <RemoveStockModal
+        isOpen={showRemoveStockModal}
+        onClose={() => setShowRemoveStockModal(false)}
+        onConfirm={handleRemoveStock}
       />
   </div>
   );

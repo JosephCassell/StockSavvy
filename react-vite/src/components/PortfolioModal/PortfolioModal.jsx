@@ -10,9 +10,13 @@ const PortfolioModal = ({ isOpen, onClose, onCreate }) => {
     };
 
     if (!isOpen) return null;
-
+    const handleBackgroundClick = (e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }
     return (
-        <div className="portfolio-modal">
+        <div className="portfolio-modal" onClick={handleBackgroundClick}>
             <div className="portfolio-modal-content">
                 <h2>Create Portfolio</h2>
                 <form onSubmit={handleSubmit}>

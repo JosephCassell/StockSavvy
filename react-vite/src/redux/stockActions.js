@@ -89,6 +89,7 @@ export const updateStocks = (stock) => ({
   type: UPDATE_STOCKS,
   payload: stock
 });
+
 // Buy a stock
 export const buyStock = (symbol, quantity) => async (dispatch) => {
   try {

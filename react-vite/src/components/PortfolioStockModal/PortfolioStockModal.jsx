@@ -62,9 +62,13 @@ const PortfolioStockModal = ({ isOpen, onClose, portfolioId, userStocks, user, t
   if (!isOpen) {
       return null;
   }
-
+  const handleBackgroundClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  }
   return (
-    <div className="portfolioStock-modal">
+    <div className="portfolioStock-modal" onClick={handleBackgroundClick}>
           <div className="portfolioStock-modal-content">
               <h2>Add Stocks to your Portfolio</h2>
               <div className="select-all-checkbox">

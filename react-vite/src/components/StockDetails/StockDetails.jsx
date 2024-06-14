@@ -121,10 +121,6 @@ const StockDetails = () => {
         { label: 'All', range: 'all' }
     ];
     useEffect(() => {
-        if (isModalOpen) {
-        }
-    }, [isModalOpen]);
-    useEffect(() => {
         const fetchStockData = () => {
             if (symbol) {
                 dispatch(fetchStockDetails(symbol));
@@ -231,7 +227,7 @@ const StockDetails = () => {
             setErrorMessage({ visible: true, content: response.error });
         } else if (response && response.message === 'Stock purchased successfully') {
             localStorage.setItem('buySuccessMessage', 'Purchase successful');
-             window.location.reload();
+            window.location.reload();
         }
     };
     const handleSell = async () => {
@@ -256,7 +252,6 @@ const StockDetails = () => {
         }
     
         const portfolioPromises = selectedPortfolios.map(({ portfolioId, quantity }) => {
-            console.log('Updating portfolio:', portfolioId, 'with quantity:', quantity);
             return dispatch(updateStockForPortfolio(portfolioId, portfoliosWithStock[0]?.stock.id, quantity));
         });
     
@@ -277,8 +272,6 @@ const StockDetails = () => {
             });
     };
     
-    
-
     const closePopup = () => {
         setPopupMessage({ visible: false, content: '' });
     };

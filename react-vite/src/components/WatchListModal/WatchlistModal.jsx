@@ -21,8 +21,8 @@ const WatchlistModal = ({ isOpen, onClose, onCreate }) => {
         <div className="watchlist-modal-content">
         <span className="close-btn" onClick={onClose}>&times;</span>
           <form onSubmit={handleSubmit}>
-          <div class="form-row">
-            <label for="watchlistName">Watchlist Name:</label>
+          <div className="form-row">
+            <label htmlFor="watchlistName">Watchlist Name:</label>
             <input type="text" id="watchlistName" name="watchlistName"value={name} onChange={(e) => setName(e.target.value)} />
           </div>
             <button type="submit">Create</button>

@@ -80,8 +80,8 @@ function SignupFormPage() {
         <div className="signup-left-side-words">
           <div className="signup-left-side-title">CREATE YOUR LOGIN</div>
           <div className="signup-left-side-line-sub-title">
-            <div>WE'LL NEED YOUR NAME, EMAIL ADDRESS, AND A UNIQUE PASSWORD.</div>
-            <div>YOU'LL USE THIS LOGIN TO ACCESS STOCK SAVVY NEXT TIME.</div>
+            <div>WE&apos;LL NEED YOUR NAME, EMAIL ADDRESS, AND A UNIQUE PASSWORD.</div>
+            <div>YOU&apos;LL USE THIS LOGIN TO ACCESS STOCK SAVVY NEXT TIME.</div>
           </div>
         </div>
 
