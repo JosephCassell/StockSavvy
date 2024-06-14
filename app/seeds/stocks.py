@@ -21,8 +21,9 @@ def fetch_live_stock_data(symbol):
     return stock_data
 
 def seed_stocks():
-    symbols = ['AAPL', 'AMD', 'TSLA']
-    for symbol in symbols:
+    # Live data primary seeders
+    live_symbols = ['AAPL', 'AMD', 'TSLA']
+    for symbol in live_symbols:
         stock_data = fetch_live_stock_data(symbol)
         if stock_data is None:
             print(f'Skipping {symbol} due to fetch error')
@@ -42,6 +43,47 @@ def seed_stocks():
             total_investment=current_price * 5
         )
         db.session.add(stock)
+
+    # Hardcoded secondary seeders
+    hc_stock1 = Stock(
+        user_id=1,
+        name='Texas Instruments Incorporated',
+        symbol='TXN',
+        current_price=196.28,
+        quantity=5,
+        total_investment=196.28 * 5
+    )
+
+    hc_stock1 = Stock(
+        user_id=1,
+        name='Texas Instruments Incorporated',
+        symbol='TXN',
+        current_price=196.28,
+        quantity=5,
+        total_investment=196.28 * 5
+    )
+
+    hc_stock2 = Stock(
+        user_id=1,
+        name='Meta Platforms, Inc.',
+        symbol='META',
+        current_price=504.10,
+        quantity=5,
+        total_investment=504.10 * 5
+    )
+
+    hc_stock3 = Stock(
+        user_id=1,
+        name='Zillow Group, Inc.',
+        symbol='Z',
+        current_price=48.50,
+        quantity=5,
+        total_investment=48.50 * 5
+    )
+
+    db.session.add(hc_stock1)
+    db.session.add(hc_stock2)
+    db.session.add(hc_stock3)
     db.session.commit()
 
 
