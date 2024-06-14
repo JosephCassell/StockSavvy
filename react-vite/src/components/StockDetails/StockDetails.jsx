@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchStockHistoryAll, fetchStockDetails, fetchStockHistory1D, fetchStockHistory1W, fetchStockHistory1M, buyStock, sellStock, checkOwnership } from '../../redux/stockActions';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { fetchTotalShares, updateStockForPortfolio, fetchPortfoliosWithStock } from '../../redux/portfolioActions';
 import SellPortfolioStockModal from '../SellPortfolioStockModal/SellPortfolioStockModal';
 import './StockDetails.css';
@@ -292,19 +292,19 @@ const StockDetails = () => {
                             `${priceDifference.amount.toFixed(2)} (${priceDifference.percentage.toFixed(2)}%)`) : ('Calculating...')}
                     </div>
                 </div>
-                <LineChart
-                    width={600}
-                    height={300}
-                    data={filteredData}
-                    onMouseMove={handleMouseMove}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    <CartesianGrid stroke="none" />
-                    <XAxis dataKey="date" hide={true} />
-                    <YAxis dataKey="close" hide={true} domain={yAxisDomain} />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="close" stroke="#08BD20" dot={false} />
-                </LineChart>
+                <ResponsiveContainer width="100%" height={300}>
+                    <LineChart
+                        data={filteredData}
+                        onMouseMove={handleMouseMove}
+                        onMouseLeave={handleMouseLeave}
+                    >
+                        <CartesianGrid stroke="none" />
+                        <XAxis dataKey="date" hide={true} />
+                        <YAxis dataKey="close" hide={true} domain={yAxisDomain} />
+                        <Tooltip />
+                        <Line type="monotone" dataKey="close" stroke="#08BD20" dot={false} />
+                    </LineChart>
+                </ResponsiveContainer>
                 <div className="tabs">
                     {tabOptions.map((option) => (
                         <button key={option.label} onClick={() => handleTabClick(option.range)}>
