@@ -5,7 +5,7 @@ import requests, os
 search = Blueprint('search', __name__)
 
 
-api_key =  os.environ.get('STOCK_API_KEY')
+api_key = os.environ.get('STOCK_API_KEY')
 
 @search.route('/stocks', methods=['GET'])
 def search_stocks():

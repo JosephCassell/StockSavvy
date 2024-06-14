@@ -7,7 +7,7 @@ class Stock(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     name = db.Column(db.String(30), nullable=False)
     symbol = db.Column(db.String(10), nullable=False)
     current_price = db.Column(db.Float, nullable=False)

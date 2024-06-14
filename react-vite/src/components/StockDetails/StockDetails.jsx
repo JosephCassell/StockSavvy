@@ -121,10 +121,6 @@ const StockDetails = () => {
         { label: 'All', range: 'all' }
     ];
     useEffect(() => {
-        if (isModalOpen) {
-        }
-    }, [isModalOpen]);
-    useEffect(() => {
         const fetchStockData = () => {
             if (symbol) {
                 dispatch(fetchStockDetails(symbol));
@@ -275,9 +271,7 @@ const StockDetails = () => {
                 setErrorMessage({ visible: true, content: error.message });
             });
     };
-
-
-
+    
     const closePopup = () => {
         setPopupMessage({ visible: false, content: '' });
     };

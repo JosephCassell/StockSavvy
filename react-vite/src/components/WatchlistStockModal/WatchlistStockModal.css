@@ -14,8 +14,8 @@
   background-color: #23394d;
   margin: 15% auto;
   padding: 20px;
-  border: 1px solid #888;
-  width: 30%;
+  width: 80%;
+  border-radius: 5px;
 }
 
 .watchlistStock-close {
@@ -34,4 +34,63 @@
 
 select {
   width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #1a2533;
+  color: white;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  overflow: auto;
+}
+
+select option {
+  background-color: #1a2533;
+  color: white;
+  padding: 10px;
+}
+select option:hover {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+select::-webkit-scrollbar {
+  width: 10px;
+}
+
+select::-webkit-scrollbar-track {
+  background: #1a2533;
+  border-radius: 5px;
+}
+
+select::-webkit-scrollbar-thumb {
+  background: #fbd1a2;
+  border-radius: 5px;
+}
+
+select::-webkit-scrollbar-thumb:hover {
+  background: #e0a96d;
+  cursor: pointer
+}
+@media (max-width: 1000px) {
+  .watchlistStock-modal-content {
+    width: 80%;
+  }
+
+  select {
+    font-size:14px;
+    padding: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .watchlistStock-modal-content {
+    width: 90%;
+  }
+
+  select {
+    font-size: 12px;
+    padding: 6px;
+  }
 }

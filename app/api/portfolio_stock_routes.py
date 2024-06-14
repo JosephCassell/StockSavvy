@@ -78,6 +78,8 @@ def update_portfolio_stock(portfolio_id, stock_id):
         return jsonify({'error': 'Stock not found in portfolio'}), 404
 
     user_stock = Stock.query.filter_by(id=stock_id).first()
+    print("userstock", user_stock)
+    print("new_quantity", new_quantity)
     if not user_stock or user_stock.quantity < new_quantity:
         return jsonify({'error': 'User does not own enough shares of this stock'}), 403
 
