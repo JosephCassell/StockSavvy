@@ -252,29 +252,6 @@ const Profile = () => {
                   </tr>
                 </thead>
                 <tbody>
-<<<<<<< HEAD
-                  {portfolio.portfolio_stocks?.map((stock) => (
-                    <tr key={stock.id} onClick={() => navigate(`/stockDetails/${stock.stock.symbol}`)}>
-                      <td>{stock.stock ? stock.stock.name : 'Loading...'}</td>
-                      <td>{stock.stock ? stock.stock.symbol : 'Loading...'}</td>
-                      <td>{stock.shares}</td>
-                      <td>{formatCurrency(stock.stock ? stock.stock.current_price : 0)}</td>
-                      <td>{formatCurrency(stock.average_cost)}</td>
-                      <td>{formatCurrency(stock.total_return)}</td>
-                      <td>{formatCurrency(stock.equity)}</td>
-                      <td>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleRemoveStockFromPortfolio(portfolio.id, stock.stock_id);
-                          }}
-                        >
-                          Remove Stock
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-=======
                 {portfolio.portfolio_stocks?.map((stock) => (
                   <tr key={stock.id} onClick={() => navigate(`/stockDetails/${stock.stock.symbol}`)}>
                     <td>{stock.stock ? stock.stock.name : 'Loading...'}</td>
@@ -296,7 +273,6 @@ const Profile = () => {
                     </td>
                   </tr>
                 ))}
->>>>>>> JosephDev-branch
                 </tbody>
               </table>
             </div>
@@ -339,9 +315,6 @@ const Profile = () => {
         user={user}
         totalShares={totalShares}
       />
-<<<<<<< HEAD
-    </div>
-=======
       <DeletePortfolioModal
         isOpen={showDeletePortfolioModal}
         onClose={() => setShowDeletePortfolioModal(false)}
@@ -353,7 +326,6 @@ const Profile = () => {
         onConfirm={handleRemoveStock}
       />
   </div>
->>>>>>> JosephDev-branch
   );
 };
 
