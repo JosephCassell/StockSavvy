@@ -1,0 +1,100 @@
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding-top: 15px;
+    padding-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+.footer-image {
+    padding-bottom: 15px;
+    width: 90vw;
+    height: auto;
+}
+
+.footer-heading {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: auto;
+    width: 90vw;
+    /* Full viewport width */
+    border-top: 1px solid #c3cddf;
+    justify-items: center;
+    padding-top: 20px;
+}
+
+.dev-heading {
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    align-items: center;
+    font-weight: bolder;
+}
+
+.devs {
+    display: grid;
+    grid-template-columns: auto;
+    column-gap: 10px;
+    font-size: 14px;
+    padding-top: 7px;
+}
+
+
+.backend {
+    padding-top: 7px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+    justify-items: center;
+    column-gap: 10px;
+    row-gap: 10px;
+    margin: .15em;
+}
+
+.backend a :first-child {
+    color: white;
+    font-size: 14pt;
+}
+
+.names {
+    font-weight: bold;
+}
+
+.docs {
+    padding-top: 7px;
+    display: flex;
+    flex-direction: column;
+}
+
+.postgres {
+    font-size: 20px;
+}
+
+.docs-links {
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    margin: .15em;
+    justify-content: center;
+}
+
+.aDev {
+    display: flex;
+    column-gap: 10px;
+    margin: .15em;
+}
+
+.devLogos {
+    width: fit-content;
+    display: flex;
+    gap: 5px;
+}
+
+.icons {
+    color: white;
+    font-size: 10pt;
+}
