@@ -79,7 +79,7 @@ def sell_stock():
     quantity = int(data['quantity'])
     stock = Stock.query.filter_by(symbol=symbol, user_id=current_user.id).first()
     user = User.query.get(current_user.id)
-
+    
     if not stock or stock.quantity < quantity:
         return jsonify({'error': 'Error: Not enough shares to sell'}), 400
 

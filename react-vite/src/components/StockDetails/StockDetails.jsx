@@ -286,7 +286,7 @@ const StockDetails = () => {
         <div className="stock-details-page">
             <div className="stock-chart-container">
                 <h2 className='header'>{symbol}</h2>
-                <div className='price'>${hoveredPrice ? hoveredPrice.toFixed(2) : Number(stockDetails.price).toFixed(2)}
+                <div className='price'>${hoveredPrice ? hoveredPrice.toFixed(2) : Number(stockDetails?.price).toFixed(2)}
                     <div className={`price-difference ${priceDifference.amount > 0 ? 'positive' : priceDifference.amount < 0 ? 'negative' : ''}`}>
                         {priceDifference.amount !== undefined && priceDifference.percentage !== undefined ? (
                             `${priceDifference.amount.toFixed(2)} (${priceDifference.percentage.toFixed(2)}%)`) : ('Calculating...')}
@@ -314,12 +314,12 @@ const StockDetails = () => {
                 </div>
                 <div className="tabs-line"></div>
                 <div className="stock-info-container">
-                    <p><strong>Market Cap: </strong> ${stockDetails.marketCap}</p>
-                    <p><strong>CEO:</strong> {stockDetails.ceo}</p>
-                    <p><strong>Sector:</strong> {stockDetails.sector}</p>
-                    <p><strong>Address:</strong> {stockDetails.address}</p>
-                    <p><strong>Exchange:</strong> {stockDetails.exchange}</p>
-                    <p><strong>Description:</strong> {stockDetails.description}</p>
+                    <p><strong>Market Cap: </strong> ${stockDetails?.marketCap}</p>
+                    <p><strong>CEO:</strong> {stockDetails?.ceo}</p>
+                    <p><strong>Sector:</strong> {stockDetails?.sector}</p>
+                    <p><strong>Address:</strong> {stockDetails?.address}</p>
+                    <p><strong>Exchange:</strong> {stockDetails?.exchange}</p>
+                    <p><strong>Description:</strong> {stockDetails?.description}</p>
                 </div>
             </div>
             <div className="stock-trade-container">

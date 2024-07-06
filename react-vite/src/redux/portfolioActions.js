@@ -176,7 +176,6 @@ export const fetchPortfoliosWithStock = (userId, stockSymbol) => async (dispatch
 
 // Update stock quantity in portfolio
 export const updateStockForPortfolio = (portfolioId, stockId, quantity) => async (dispatch) => {
-    console.log("stockId", stockId)
     const response = await fetch(`/api/portfolio_stocks/${portfolioId}/${stockId}`, {
         method: 'PUT',
         headers: {

@@ -70,6 +70,7 @@ const SellPortfolioStockModal = ({ isOpen, onClose, onConfirm, initialQuantity }
     const totalUserShares = userStockQuantity - initialQuantity;
     const portfolioShares = totalPortfolioShares - totalSelectedQuantity;
     const canConfirm = totalUserShares >= portfolioShares;
+    
     if (!isOpen) {
         return null;
     }
