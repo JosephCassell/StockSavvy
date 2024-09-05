@@ -82,8 +82,10 @@ const Profile = () => {
 
   const formatCurrency = (value) => {
     const number = parseFloat(value);
-    return Number.isInteger(number) ? `$${number}` : `$${number.toFixed(2)}`;
+    if (isNaN(number)) return '$0.00';
+    return `$${number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
+  
 
   const totalEquity = profile.stocks.reduce((total, stock) => {
     return total + (stock.quantity * stock.current_price);
